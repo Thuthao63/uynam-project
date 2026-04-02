@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const [activeTab, setActiveTab] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  // Xử lý đổi màu nền khi cuộn
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -12,23 +16,49 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (id, tabName) => {
+  // Cập nhật tab active dựa trên URL
+  useEffect(() => {
+    const path = location.pathname;
+    if (path === '/') setActiveTab('home');
+    else if (path === '/workflow') setActiveTab('workflow');
+    else if (path === '/about') setActiveTab('about');
+  }, [location]);
+
+  const handleNavClick = (id, tabName, isPage = false) => {
     setActiveTab(tabName);
-    const element = document.getElementById(id);
-    if (element) {
-      window.scrollTo({
-        top: element.offsetTop - 80,
-        behavior: 'smooth'
-      });
-    } else if (id === 'top') {
+    
+    if (isPage) {
+      // Nếu là trang riêng biệt (About, Workflow)
+      navigate(id);
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // Nếu là cuộn trong trang chủ
+      if (location.pathname !== '/') {
+        // Nếu đang ở trang khác, quay về trang chủ rồi mới cuộn
+        navigate('/');
+        setTimeout(() => {
+          const element = document.getElementById(id);
+          if (element) window.scrollTo({ top: element.offsetTop - 80, behavior: 'smooth' });
+        }, 100);
+      } else {
+        const element = document.getElementById(id);
+        if (element) {
+          window.scrollTo({ top: element.offsetTop - 80, behavior: 'smooth' });
+        } else if (id === 'top') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
     }
   };
 
   const navItemClass = (tabName) => `
-    relative h-full flex items-center px-4 cursor-pointer font-bold text-xs uppercase tracking-widest transition-all duration-300
+    relative h-full flex items-center px-4 cursor-pointer font-black text-[10px] uppercase tracking-[0.2em] transition-all duration-300
     ${activeTab === tabName ? 'text-[#FFB800]' : 'text-white hover:text-[#FFB800]'}
   `;
+
+  const ActiveArrow = () => (
+    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[6px] border-b-white animate-in slide-in-from-bottom-1"></div>
+  );
 
   return (
     <nav className={`fixed top-0 left-0 w-full h-20 z-[9999] transition-all duration-500 ${
@@ -37,11 +67,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-6 h-full flex justify-between items-center">
         
         {/* LOGO */}
-        <div 
-          onClick={() => scrollToSection('top', 'home')}
-          className="flex items-center cursor-pointer group"
-        >
-          {/* Tên thương hiệu */}
+        <div onClick={() => handleNavClick('top', 'home')} className="flex items-center cursor-pointer group">
           <div className="flex flex-col justify-center">
             <span className="text-xl font-black text-white leading-none tracking-tighter">UY NAM</span>
             <span className="text-[9px] font-bold text-[#FFB800] tracking-[0.2em] uppercase mt-1">Construction</span>
@@ -49,39 +75,31 @@ const Navbar = () => {
         </div>
 
         {/* Menu giữa */}
-        <div className="hidden md:flex h-full items-center">
-          <button onClick={() => scrollToSection('top', 'home')} className={navItemClass('home')}>
-            Trang chủ
-            {activeTab === 'home' && (
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[6px] border-b-white animate-in slide-in-from-bottom-1"></div>
-            )}
+        <div className="hidden lg:flex h-full items-center">
+          <button onClick={() => handleNavClick('top', 'home')} className={navItemClass('home')}>
+            Trang chủ {activeTab === 'home' && <ActiveArrow />}
           </button>
 
-          <button onClick={() => scrollToSection('services-section', 'services')} className={navItemClass('services')}>
-            Dịch vụ
-            {activeTab === 'services' && (
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[6px] border-b-white animate-in slide-in-from-bottom-1"></div>
-            )}
+          <button onClick={() => handleNavClick('/about', 'about', true)} className={navItemClass('about')}>
+            Giới thiệu {activeTab === 'about' && <ActiveArrow />}
           </button>
 
-          <button onClick={() => scrollToSection('project-section', 'projects')} className={navItemClass('projects')}>
-            Dự án thi công
-            {activeTab === 'projects' && (
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[6px] border-b-white animate-in slide-in-from-bottom-1"></div>
-            )}
+          <button onClick={() => handleNavClick('/workflow', 'workflow', true)} className={navItemClass('workflow')}>
+            Quy trình {activeTab === 'workflow' && <ActiveArrow />}
           </button>
 
-          <button onClick={() => scrollToSection('contact-section', 'contact')} className={navItemClass('contact')}>
-            Báo giá
-            {activeTab === 'contact' && (
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[6px] border-b-white animate-in slide-in-from-bottom-1"></div>
-            )}
+          <button onClick={() => handleNavClick('project-section', 'projects')} className={navItemClass('projects')}>
+            Dự án {activeTab === 'projects' && <ActiveArrow />}
+          </button>
+
+          <button onClick={() => handleNavClick('contact-section', 'contact')} className={navItemClass('contact')}>
+            Báo giá {activeTab === 'contact' && <ActiveArrow />}
           </button>
         </div>
 
         {/* Nút Tư vấn */}
         <button 
-          onClick={() => scrollToSection('contact-section', 'contact')}
+          onClick={() => handleNavClick('contact-section', 'contact')}
           className="bg-[#FFB800] text-black px-6 py-2.5 rounded-sm font-black text-[10px] uppercase tracking-tighter hover:bg-white hover:text-[#002366] transition-all shadow-lg active:scale-95"
         >
           Tư vấn ngay

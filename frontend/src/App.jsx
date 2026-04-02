@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import axios from 'axios';
-import { motion } from 'framer-motion'; // Nhớ install: npm install framer-motion
+import { motion } from 'framer-motion';
 
 // Import Components
 import Navbar from './components/Navbar';
@@ -10,8 +10,10 @@ import ContactForm from './components/ContactForm';
 import Services from './components/Services'; 
 import AdminPage from './components/AdminPage';
 import ScrollToTop from './components/ScrollToTop';
-import Counter from './components/Counter'; // File số nhảy đã tạo
-import ContactSocial from './components/ContactSocial'; // File Zalo/Mess đã tạo
+import Counter from './components/Counter'; 
+import ContactSocial from './components/ContactSocial';
+import Workflow from './components/Workflow'; // TRANG MỚI 1
+import About from './components/About'; // TRANG MỚI 2
 
 // --- COMPONENT TRANG CHỦ (HOMEPAGE) ---
 const HomePage = ({ projects, loading }) => {
@@ -23,7 +25,7 @@ const HomePage = ({ projects, loading }) => {
 
   return (
     <div className="animate-in fade-in duration-700">
-      {/* --- PHẦN 1: HERO TEASER --- */}
+      {/* --- SECTION 1: HERO TEASER --- */}
       <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <video autoPlay muted loop playsInline className="w-full h-full object-cover scale-105">
@@ -68,7 +70,7 @@ const HomePage = ({ projects, loading }) => {
         </div>
       </section>
 
-      {/* --- PHẦN 2: THÔNG SỐ (STATS) VỚI HIỆU ỨNG SỐ NHẢY --- */}
+      {/* --- SECTION 2: STATS --- */}
       <section className="bg-[#002366] py-20 px-6">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
           {[
@@ -93,10 +95,13 @@ const HomePage = ({ projects, loading }) => {
         </div>
       </section>
 
-      {/* --- PHẦN 3: DỊCH VỤ --- */}
+      {/* --- SECTION 3: QUY TRÌNH (PREVIEW) --- */}
+      <Workflow isPreview={true} />
+
+      {/* --- SECTION 4: DỊCH VỤ --- */}
       <Services />
 
-      {/* --- PHẦN 4: DỰ ÁN (PORTFOLIO) --- */}
+      {/* --- SECTION 5: DỰ ÁN --- */}
       <main id="project-section" className="py-24 px-6 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
           <div className="text-left">
@@ -133,7 +138,7 @@ const HomePage = ({ projects, loading }) => {
         )}
       </main>
 
-      {/* --- PHẦN 5: LIÊN HỆ --- */}
+      {/* --- SECTION 6: LIÊN HỆ --- */}
       <section id="contact-section" className="relative py-24 bg-slate-900 overflow-hidden text-center">
         <div className="relative z-10 max-w-4xl mx-auto px-6">
             <h2 className="text-blue-400 text-sm font-bold tracking-[0.4em] uppercase mb-4">Kết nối</h2>
@@ -142,51 +147,51 @@ const HomePage = ({ projects, loading }) => {
         </div>
       </section>
 
-      {/* --- PHẦN 6: FOOTER TINH TẾ --- */}
-      <footer className="bg-white pt-20 pb-10 border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-16 mb-16 text-left">
-          <div>
-            <h4 className="text-xl font-black text-[#002366] mb-6 tracking-tighter">UY NAM CONSTRUCTION</h4>
-            <p className="text-slate-500 text-xs leading-relaxed italic opacity-70">
-              "Kiến tạo không gian - Dựng xây hạnh phúc. Chúng tôi mang đến giải pháp kiến trúc bền vững cho ngôi nhà Việt."
-            </p>
-          </div>
-          <div>
-            <h4 className="text-[11px] font-black text-slate-800 uppercase tracking-widest mb-6">Thông tin</h4>
-            <div className="text-slate-500 text-xs space-y-3">
-              <p>📍 TP. Đà Nẵng, Việt Nam</p>
-              <p>📞 09xx xxx xxx</p>
-              <p>✉️ contact@uynam.vn</p>
-            </div>
-          </div>
-          <div>
-            <h4 className="text-[11px] font-black text-slate-800 uppercase tracking-widest mb-6">Dịch vụ</h4>
-            <div className="text-slate-500 text-xs space-y-3">
-              <p>Thiết kế kiến trúc</p>
-              <p>Thi công trọn gói</p>
-              <p>Xây dựng phần thô</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="border-t border-slate-50 pt-10 flex flex-col items-center gap-4">
-          {/* Link Admin ẩn ở Footer - Không bị giả */}
-          <Link 
-            to="/admin" 
-            className="group flex items-center gap-2 text-[9px] text-slate-300 hover:text-[#2d86f4] transition-all uppercase tracking-[0.3em] font-medium"
-          >
-            <span className="w-1 h-1 bg-slate-200 group-hover:bg-[#2d86f4] rounded-full"></span>
-            Internal System Access
-          </Link>
-
-          <p className="text-slate-300 text-[10px] font-bold uppercase tracking-[0.3em]">
-            © 2026 Uy Nam Design • Built by Thảo Nguyễn
-          </p>
-        </div>
-      </footer>
+      {/* --- PHẦN 7: FOOTER --- */}
+      <Footer />
     </div>
   );
 }
+
+// --- TÁCH COMPONENT FOOTER ĐỂ DÙNG CHUNG ---
+const Footer = () => (
+  <footer className="bg-white pt-20 pb-10 border-t border-slate-100">
+    <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-16 mb-16 text-left">
+      <div>
+        <h4 className="text-xl font-black text-[#002366] mb-6 tracking-tighter uppercase">UY NAM CONSTRUCTION</h4>
+        <p className="text-slate-500 text-xs leading-relaxed italic opacity-70">
+          "Kiến tạo không gian - Dựng xây hạnh phúc. Chúng tôi mang đến giải pháp kiến trúc bền vững cho ngôi nhà Việt."
+        </p>
+      </div>
+      <div>
+        <h4 className="text-[11px] font-black text-slate-800 uppercase tracking-widest mb-6">Thông tin</h4>
+        <div className="text-slate-500 text-xs space-y-3">
+          <p>📍 TP. Đà Nẵng, Việt Nam</p>
+          <p>📞 0903 131 893</p>
+          <p>✉️ contact@uynam.vn</p>
+        </div>
+      </div>
+      <div>
+        <h4 className="text-[11px] font-black text-slate-800 uppercase tracking-widest mb-6">Liên kết</h4>
+        <div className="text-slate-500 text-xs space-y-3 flex flex-col">
+          <Link to="/about" className="hover:text-blue-500">Về chúng tôi</Link>
+          <Link to="/workflow" className="hover:text-blue-500">Quy trình làm việc</Link>
+          <Link to="/" className="hover:text-blue-500">Dự án thi công</Link>
+        </div>
+      </div>
+    </div>
+
+    <div className="border-t border-slate-50 pt-10 flex flex-col items-center gap-4">
+      <Link to="/admin" className="group flex items-center gap-2 text-[9px] text-slate-300 hover:text-[#2d86f4] transition-all uppercase tracking-[0.3em] font-medium">
+        <span className="w-1 h-1 bg-slate-200 group-hover:bg-[#2d86f4] rounded-full"></span>
+        Internal System Access
+      </Link>
+      <p className="text-slate-300 text-[10px] font-bold uppercase tracking-[0.3em]">
+        © 2026 Uy Nam Design • Built by Thảo Nguyễn
+      </p>
+    </div>
+  </footer>
+);
 
 // --- APP COMPONENT ---
 function App() {
@@ -215,11 +220,19 @@ function App() {
       <Navbar /> 
       
       <Routes>
+        {/* Trang chủ */}
         <Route path="/" element={<HomePage projects={projects} loading={loading} />} />
+        
+        {/* Trang con: Quy trình */}
+        <Route path="/workflow" element={<div className="pt-20"><Workflow /><Footer /></div>} />
+        
+        {/* Trang con: Giới thiệu */}
+        <Route path="/about" element={<div className="pt-20"><About /><Footer /></div>} />
+        
+        {/* Trang Admin */}
         <Route path="/admin" element={<AdminPage projects={projects} onProjectAdded={fetchProjects} onDeleteProject={fetchProjects} />} />
       </Routes>
 
-      {/* Nút Zalo & Messenger nổi - Luôn xuất hiện */}
       <ContactSocial />
     </BrowserRouter>
   );
