@@ -1,4 +1,4 @@
-import axios from '../api/axios';
+import axios from './api/axios';
 
 const instance = axios.create({
     // Phải có đầy đủ https:// và KHÔNG có dấu / ở cuối link

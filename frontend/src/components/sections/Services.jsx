@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import axios from '../api/axios';
+import axios from './api/axios';
 
 const Services = () => {
   const [selectedService, setSelectedService] = useState(null);
