@@ -18,7 +18,7 @@ const ContactForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setStatus('sending');
-    axios.post('http://localhost:5000/api/contacts', formData)
+    axios.post('/api/contacts', formData)
       .then(() => {
         setStatus('success');
         socket.emit('client_new_contact', { name: formData.name });

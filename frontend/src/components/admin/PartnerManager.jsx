@@ -14,7 +14,7 @@ const PartnerManager = () => {
 
     const fetchPartners = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/partners');
+            const res = await axios.get('/api/partners');
             setPartners(res.data);
         } catch (err) { console.error(err); }
         finally { setLoading(false); }
@@ -28,7 +28,7 @@ const PartnerManager = () => {
         if (imageFile) formData.append('image', imageFile);
 
         try {
-            await axios.post('http://localhost:5000/api/partners', formData);
+            await axios.post('/api/partners', formData);
             setName('');
             setLogoText('');
             setImageFile(null);
@@ -39,7 +39,7 @@ const PartnerManager = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Xóa đối tác này?")) {
             try {
-                await axios.delete(`http://localhost:5000/api/partners/${id}`);
+                await axios.delete(`/api/partners/${id}`);
                 fetchPartners();
             } catch (err) { alert("Lỗi khi xóa"); }
         }

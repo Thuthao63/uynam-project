@@ -12,7 +12,7 @@ const FAQManager = () => {
 
     const fetchFAQs = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/faqs');
+            const res = await axios.get('/api/faqs');
             setFaqs(res.data);
         } catch (err) { console.error(err); }
         finally { setLoading(false); }
@@ -21,7 +21,7 @@ const FAQManager = () => {
     const handleAdd = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/api/faqs', newData);
+            await axios.post('/api/faqs', newData);
             setNewData({ question: '', answer: '', order: 0 });
             fetchFAQs();
         } catch (err) { alert("Lỗi khi thêm"); }
@@ -30,7 +30,7 @@ const FAQManager = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Xóa câu hỏi này?")) {
             try {
-                await axios.delete(`http://localhost:5000/api/faqs/${id}`);
+                await axios.delete(`/faqs/${id}`);
                 fetchFAQs();
             } catch (err) { alert("Lỗi khi xóa"); }
         }

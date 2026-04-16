@@ -12,7 +12,7 @@ const HomeContentManager = () => {
 
     const fetchSettings = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/home-content');
+            const res = await axios.get('/home-content');
             setSettings(res.data);
         } catch (err) {
             console.error("Lỗi:", err);
@@ -33,7 +33,7 @@ const HomeContentManager = () => {
                 value: settings[key],
                 category: key.startsWith('stat_') ? 'Stats' : 'Hero'
             }));
-            await axios.post('http://localhost:5000/api/home-content/bulk', bulkData);
+            await axios.post('/home-content/bulk', bulkData);
             alert("Đã lưu cài đặt trang chủ thành công!");
         } catch (err) {
             alert("Lỗi khi lưu dữ liệu");

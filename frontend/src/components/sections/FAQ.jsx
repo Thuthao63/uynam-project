@@ -10,7 +10,7 @@ const FAQ = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/faqs');
+        const res = await axios.get('/api/faqs');
         setFaqs(res.data);
       } catch (err) { console.error(err); }
       finally { setLoading(false); }

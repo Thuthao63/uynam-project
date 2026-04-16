@@ -7,7 +7,7 @@ const ProjectCard = ({ project, onDelete, isAdmin }) => {
   const handleDelete = async () => {
     if (window.confirm(`Thảo có chắc chắn muốn xóa dự án "${project.title}" không?`)) {
       try {
-        await axios.delete(`http://localhost:5000/api/projects/${project.id}`);
+        await axios.delete(`/api/projects/${project.id}`);
         onDelete(); // Gọi hàm cập nhật lại danh sách ở App.jsx
       } catch (err) {
         alert("Lỗi khi xóa: " + err.message);

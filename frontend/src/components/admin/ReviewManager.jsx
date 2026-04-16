@@ -12,7 +12,7 @@ const ReviewManager = () => {
 
     const fetchReviews = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/testimonials');
+            const res = await axios.get('/api/testimonials');
             setReviews(res.data);
         } catch (err) { console.error(err); }
         finally { setLoading(false); }
@@ -21,7 +21,7 @@ const ReviewManager = () => {
     const handleAdd = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/api/testimonials', newData);
+            await axios.post('/api/testimonials', newData);
             setNewData({ name: '', role: '', content: '', imageUrl: '' });
             fetchReviews();
         } catch (err) { alert("Lỗi khi thêm"); }
@@ -30,7 +30,7 @@ const ReviewManager = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Xóa nhận xét này?")) {
             try {
-                await axios.delete(`http://localhost:5000/api/testimonials/${id}`);
+                await axios.delete(`/testimonials/${id}`);
                 fetchReviews();
             } catch (err) { alert("Lỗi khi xóa"); }
         }

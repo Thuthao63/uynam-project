@@ -13,7 +13,7 @@ const ServiceManager = () => {
 
     const fetchServices = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/services');
+            const res = await axios.get('/api/services');
             setServices(res.data);
         } catch (err) { console.error(err); }
         finally { setLoading(false); }
@@ -26,7 +26,7 @@ const ServiceManager = () => {
         if (imageFile) formData.append('image', imageFile);
 
         try {
-            await axios.post('http://localhost:5000/api/services', formData);
+            await axios.post('/api/services', formData);
             setNewData({ orderId: '', title: '', desc: '', detail: '', features: '' });
             setImageFile(null);
             fetchServices();
@@ -36,7 +36,7 @@ const ServiceManager = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Xóa dịch vụ này?")) {
             try {
-                await axios.delete(`http://localhost:5000/api/services/${id}`);
+                await axios.delete(`/services/${id}`);
                 fetchServices();
             } catch (err) { alert("Lỗi khi xóa"); }
         }

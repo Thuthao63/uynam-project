@@ -13,7 +13,7 @@ const TeamManager = () => {
 
     const fetchMembers = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/teams');
+            const res = await axios.get('/api/teams');
             setMembers(res.data);
         } catch (err) { console.error(err); }
         finally { setLoading(false); }
@@ -26,7 +26,7 @@ const TeamManager = () => {
         if (imageFile) formData.append('image', imageFile);
 
         try {
-            await axios.post('http://localhost:5000/api/teams', formData);
+            await axios.post('/api/teams', formData);
             setNewData({ name: '', role: '', order: 0 });
             setImageFile(null);
             fetchMembers();
@@ -36,7 +36,7 @@ const TeamManager = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Xóa thành viên này?")) {
             try {
-                await axios.delete(`http://localhost:5000/api/teams/${id}`);
+                await axios.delete(`/api/teams/${id}`);
                 fetchMembers();
             } catch (err) { alert("Lỗi khi xóa"); }
         }

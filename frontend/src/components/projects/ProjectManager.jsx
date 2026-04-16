@@ -38,7 +38,7 @@ const ProjectManager = ({ onProjectAdded }) => {
         technologies: formData.technologies.split(',').map(t => t.trim())
       };
 
-      const response = await fetch('http://localhost:5000/api/projects', {
+      const response = await fetch('/api/projects', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

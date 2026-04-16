@@ -10,7 +10,7 @@ const Services = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/services');
+        const res = await axios.get('/api/services');
         // Xử lý chuyển đổi features từ chuỗi sang mảng
         const processed = res.data.map(s => ({
           ...s,

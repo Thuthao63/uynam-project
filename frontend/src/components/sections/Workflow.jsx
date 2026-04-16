@@ -10,7 +10,7 @@ const Workflow = () => {
   useEffect(() => {
     const fetchSteps = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/workflows');
+        const res = await axios.get('/api/workflows');
         setSteps(res.data);
       } catch (err) { console.error(err); }
       finally { setLoading(false); }

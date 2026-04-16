@@ -56,7 +56,7 @@ const ContactList = () => {
 
   const fetchContacts = () => {
     setLoading(true);
-    axios.get('http://localhost:5000/api/contacts')
+    axios.get('/api/contacts')
       .then(res => {
         setContacts(res.data);
         setFilteredContacts(res.data);
@@ -82,7 +82,7 @@ const ContactList = () => {
 
   const handleDelete = (id) => {
     if (window.confirm('Xác nhận xóa yêu cầu này?')) {
-      axios.delete(`http://localhost:5000/api/contacts/${id}`)
+      axios.delete(`/contacts/${id}`)
         .then(() => fetchContacts())
         .catch(() => alert("Xóa thất bại!"));
     }

@@ -13,7 +13,7 @@ const WorkflowManager = () => {
 
     const fetchSteps = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/workflows');
+            const res = await axios.get('/api/workflows');
             setSteps(res.data);
         } catch (err) { console.error(err); }
         finally { setLoading(false); }
@@ -36,7 +36,7 @@ const WorkflowManager = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Xóa bước này?")) {
             try {
-                await axios.delete(`http://localhost:5000/api/workflows/${id}`);
+                await axios.delete(`/api/workflows/${id}`);
                 fetchSteps();
             } catch (err) { alert("Lỗi khi xóa"); }
         }
