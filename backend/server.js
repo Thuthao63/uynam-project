@@ -10,6 +10,11 @@ const authRoutes = require('./src/routes/authRoutes');
 const testimonialRoutes = require('./src/routes/testimonialRoutes');
 const faqRoutes = require('./src/routes/faqRoutes');
 const homeRoutes = require('./src/routes/homeRoutes');
+const serviceRoutes = require('./src/routes/serviceRoutes');
+const workflowRoutes = require('./src/routes/workflowRoutes');
+const partnerRoutes = require('./src/routes/partnerRoutes');
+const blogRoutes = require('./src/routes/blogRoutes');
+const teamRoutes = require('./src/routes/teamRoutes');
 require('dotenv').config();
 
 const app = express();
@@ -39,6 +44,11 @@ app.use('/api/auth', authRoutes);
 app.use('/api/testimonials', testimonialRoutes);
 app.use('/api/faqs', faqRoutes);
 app.use('/api/home-content', homeRoutes);
+app.use('/api/services', serviceRoutes);
+app.use('/api/workflows', workflowRoutes);
+app.use('/api/partners', partnerRoutes);
+app.use('/api/blogs', blogRoutes);
+app.use('/api/teams', teamRoutes);
 
 // 6. Lắng nghe tín hiệu kết nối từ Frontend
 io.on('connection', (socket) => {

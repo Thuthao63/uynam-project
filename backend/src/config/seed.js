@@ -2,6 +2,11 @@ const Project = require('../models/Project');
 const Testimonial = require('../models/Testimonial');
 const FAQ = require('../models/FAQ');
 const HomeContent = require('../models/HomeContent');
+const Service = require('../models/Service');
+const WorkflowStep = require('../models/WorkflowStep');
+const Partner = require('../models/Partner');
+const BlogPost = require('../models/BlogPost');
+const TeamMember = require('../models/TeamMember');
 
 const sampleProjects = [
     {
@@ -15,18 +20,6 @@ const sampleProjects = [
         description: "Giải pháp kiến trúc tối ưu cho những mảnh đất nhà lô phố hẹp. Thiết kế theo trường phái Minimalism (Tối giản), tập trung vào đường nét hình khối và khai thác ánh sáng tự nhiên qua giếng trời.\n\nMang lại không gian thoáng đãng dù diện tích khiêm tốn.",
         imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80",
         category: "Nhà phố"
-    },
-    {
-        title: "Thiết Kế Nội Thất Penthouse",
-        description: "Không gian sống sang trọng, mang phong cách vương giả, nơi mà những món đồ nội thất đều như một tác phẩm điêu khắc nghệ thuật.\n\nSử dụng công nghệ smarthome tinh xảo tích hợp âm tường tạo nên sự liền mạch độc đáo.",
-        imageUrl: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80",
-        category: "Nội thất"
-    },
-    {
-        title: "Chung Cư Cao Cấp Wabi Sabi",
-        description: "Chung cư với nguồn cảm hứng từ Nhật Bản - tôn vinh vẻ đẹp của sự bất toàn.\n\nCông năng được tính toán cực kì chi tiết với màu sắc chủ đạo là tông Be nhạt và màu mộc của gỗ sồi.",
-        imageUrl: "https://images.unsplash.com/photo-1554469384-e58fac16e23a?auto=format&fit=crop&q=80",
-        category: "Nội thất"
     }
 ];
 
@@ -46,35 +39,49 @@ const sampleHomeContent = [
     { key: "stat_engineers", value: "50+", category: "Stats" },
     { key: "stat_satisfaction", value: "100%", category: "Stats" },
     { key: "hero_title", value: "UY NAM CONSTRUCTION", category: "Hero" },
-    { key: "hero_subtitle", value: "Kiến tạo không gian • Dựng xây hạnh phúc", category: "Hero" }
+    { key: "hero_subtitle", value: "Kiến tạo không gian • Dựng xây hạnh phúc", category: "Hero" },
+    { key: "hero_video", value: "/teaser.mp4", category: "Hero" }
+];
+
+const sampleServices = [
+    { orderId: "01", title: "Thiết kế Kiến trúc", desc: "Sáng tạo không gian sống hiện đại, tối ưu công năng và thẩm mỹ.", detail: "Giải pháp thiết kế từ kiến trúc mặt tiền đến bố trí công năng. Chúng tôi tư vấn phong thủy và vật liệu mới nhất.", imageUrl: "https://images.pexels.com/photos/157811/pexels-photo-157811.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", features: "Bản vẽ 3D ngoại thất, Hồ sơ kỹ thuật thi công, Xin phép xây dựng" },
+    { orderId: "02", title: "Thi công Trọn gói", desc: "Chìa khóa trao tay với quy trình kiểm soát chất lượng nghiêm ngặt.", detail: "Uy Nam cam kết quản lý nhân công, vật tư minh bạch, thi công đúng tiến độ và không phát sinh chi phí.", imageUrl: "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", features: "Quản lý dự án chuyên nghiệp, Cam kết không phát sinh, Bảo hành kết cấu 10 năm" }
+];
+
+const sampleWorkflow = [
+    { stepId: "01", title: "Khảo sát & Định hướng", desc: "Kiến trúc sư Uy Nam trực tiếp khảo sát địa hình, phân tích hướng nắng, gió và tư vấn phong thủy.", icon: "📍", imageUrl: "https://images.unsplash.com/photo-1503387762-592dea58ef21?auto=format&fit=crop&q=80&w=800" },
+    { stepId: "02", title: "Thiết kế Phối cảnh 3D", desc: "Chạm tay vào không gian sống mơ ước thông qua bản vẽ VR/3D sống động.", icon: "📐", imageUrl: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800" }
+];
+
+const samplePartners = [
+    { name: "Viglacera", logo: "VIGLACERA" },
+    { name: "Hòa Phát", logo: "HOA PHAT" },
+    { name: "Jotun Paints", logo: "JOTUN" }
+];
+
+const sampleBlogs = [
+    { id: 1, category: "Phong Thuỷ", title: "Năm 2026 Xây Nhà Hướng Nào Đẹp Nhất?", imageUrl: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80", date: "16 Tháng 4, 2026", summary: "Tìm hiểu các hướng xây nhà tốt nhất cho năm 2026 để mang lại tài lộc.", content: "Nội dung chi tiết bài viết phong thủy..." },
+    { id: 2, category: "Kiến Thức", title: "Phân biệt Xây Thô và Hoàn Thiện", imageUrl: "https://images.unsplash.com/photo-1541888086925-ebbc31bcbdce?auto=format&fit=crop&q=80", date: "12 Tháng 4, 2026", summary: "Hướng dẫn phân biệt rõ ràng hai giai đoạn quan trọng trong xây dựng.", content: "Nội dung chi tiết bài viết kiến thức..." }
+];
+
+const sampleTeam = [
+    { name: "KTS. Lê Uy Nam", role: "CEO & Founder", imageUrl: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80", order: 1 },
+    { name: "KS. Nguyễn Thế Vinh", role: "Giám đốc Kỹ thuật", imageUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80", order: 2 }
 ];
 
 const seedDatabase = async () => {
     try {
-        // Seed Projects
-        if (await Project.count() === 0) {
-            await Project.bulkCreate(sampleProjects);
-            console.log("✅ Seeded Projects");
-        }
+        if (await Project.count() === 0) await Project.bulkCreate(sampleProjects);
+        if (await Testimonial.count() === 0) await Testimonial.bulkCreate(sampleTestimonials);
+        if (await FAQ.count() === 0) await FAQ.bulkCreate(sampleFAQs);
+        if (await HomeContent.count() === 0) await HomeContent.bulkCreate(sampleHomeContent);
+        if (await Service.count() === 0) await Service.bulkCreate(sampleServices);
+        if (await WorkflowStep.count() === 0) await WorkflowStep.bulkCreate(sampleWorkflow);
+        if (await Partner.count() === 0) await Partner.bulkCreate(samplePartners);
+        if (await BlogPost.count() === 0) await BlogPost.bulkCreate(sampleBlogs);
+        if (await TeamMember.count() === 0) await TeamMember.bulkCreate(sampleTeam);
         
-        // Seed Testimonials
-        if (await Testimonial.count() === 0) {
-            await Testimonial.bulkCreate(sampleTestimonials);
-            console.log("✅ Seeded Testimonials");
-        }
-        
-        // Seed FAQs
-        if (await FAQ.count() === 0) {
-            await FAQ.bulkCreate(sampleFAQs);
-            console.log("✅ Seeded FAQs");
-        }
-        
-        // Seed Home Content
-        if (await HomeContent.count() === 0) {
-            await HomeContent.bulkCreate(sampleHomeContent);
-            console.log("✅ Seeded Home Content");
-        }
-
+        console.log("✅ Database đã được bơm dữ liệu mẫu hoàn chỉnh!");
     } catch (error) {
         console.error("❌ Lỗi khi Seeding dữ liệu:", error);
     }

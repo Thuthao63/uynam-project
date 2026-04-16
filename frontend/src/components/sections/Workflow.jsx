@@ -1,46 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-
-const steps = [
-  { 
-    id: '01', 
-    title: 'Khảo sát & Định hướng', 
-    desc: 'Kiến trúc sư Uy Nam trực tiếp khảo sát địa hình, phân tích hướng nắng, gió và tư vấn phong thủy ngay tại khu đất của bạn.',
-    image: 'https://images.unsplash.com/photo-1503387762-592dea58ef21?auto=format&fit=crop&q=80&w=800',
-    icon: '📍' 
-  },
-  { 
-    id: '02', 
-    title: 'Thiết kế Phối cảnh 3D', 
-    desc: 'Chạm tay vào không gian sống mơ ước thông qua bản vẽ VR/3D sống động, giúp bạn điều chỉnh từng góc nhỏ trước khi đặt gạch.',
-    image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800',
-    icon: '📐' 
-  },
-  { 
-    id: '03', 
-    title: 'Bóc tách & Ký kết', 
-    desc: 'Hệ thống báo giá tự động minh bạch từng con ốc, thanh thép. Cam kết "Không phát sinh" bằng hợp đồng pháp lý rõ ràng.',
-    image: 'https://images.unsplash.com/photo-1554469384-e58fac16e23a?auto=format&fit=crop&q=80&w=800',
-    icon: '🤝' 
-  },
-  { 
-    id: '04', 
-    title: 'Thi công & Giám sát Cam', 
-    desc: 'Theo dõi tiến độ qua hệ thống camera 24/7. Đội ngũ kỹ sư cơ hữu giám sát từng mẻ bê tông, đường điện theo tiêu chuẩn Nhật Bản.',
-    image: 'https://images.unsplash.com/photo-1504307651254-35682f94a1d8?auto=format&fit=crop&q=80&w=800',
-    icon: '👷' 
-  },
-  { 
-    id: '05', 
-    title: 'Bàn giao & Bảo trì', 
-    desc: 'Nghiệm thu toàn diện bằng thiết bị chuyên dụng. Kích hoạt gói bảo trì định kỳ 6 tháng/lần trọn đời tổ ấm.',
-    image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=800',
-    icon: '🏠' 
-  }
-];
+import axios from 'axios';
 
 const Workflow = () => {
+  const [steps, setSteps] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSteps = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/workflows');
+        setSteps(res.data);
+      } catch (err) { console.error(err); }
+      finally { setLoading(false); }
+    };
+    fetchSteps();
+  }, []);
+
   const navigate = useNavigate();
   const { scrollYProgress } = useScroll();
   const scaleY = useSpring(scrollYProgress, {

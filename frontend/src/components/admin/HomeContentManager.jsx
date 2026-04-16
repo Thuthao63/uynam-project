@@ -91,6 +91,16 @@ const HomeContentManager = () => {
                             className="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-lg text-sm"
                         />
                     </div>
+                    <div>
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Link Video Teaser (mp4)</label>
+                        <input 
+                            type="text"
+                            value={settings['hero_video'] || ''}
+                            onChange={(e) => handleChange('hero_video', e.target.value)}
+                            className="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-lg text-sm font-mono text-blue-500"
+                            placeholder="/teaser.mp4"
+                        />
+                    </div>
                 </div>
             </div>
 

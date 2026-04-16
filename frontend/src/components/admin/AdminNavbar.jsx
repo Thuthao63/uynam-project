@@ -5,11 +5,16 @@ const AdminNavbar = ({ onLogout }) => {
   const navigate = useNavigate();
 
   const navItems = [
-    { label: 'Dự án', icon: '🏗️', path: '/admin/projects' },
-    { label: 'Liên hệ', icon: '📩', path: '/admin/contacts' },
-    { label: 'Trang chủ', icon: '🏠', path: '/admin/homepage' },
-    { label: 'Câu hỏi (FAQ)', icon: '❓', path: '/admin/faq' },
-    { label: 'Nhận xét', icon: '⭐', path: '/admin/reviews' },
+    { path: '/admin/projects', label: 'Dự án', icon: '🏗️' },
+    { path: '/admin/services', label: 'Dịch vụ', icon: '🛠️' },
+    { path: '/admin/workflow', label: 'Quy trình', icon: '⏳' },
+    { path: '/admin/homepage', label: 'Trang chủ', icon: '🏠' },
+    { path: '/admin/blogs', label: 'Tin tức', icon: '📝' },
+    { path: '/admin/partners', label: 'Đối tác', icon: '🤝' },
+    { path: '/admin/reviews', label: 'Nhận xét', icon: '💬' },
+    { path: '/admin/faq', label: 'Câu hỏi', icon: '❓' },
+    { path: '/admin/teams', label: 'Nhân sự', icon: '👥' },
+    { path: '/admin/contacts', label: 'Liên hệ', icon: '📩' },
   ];
 
   const handleLogout = () => {

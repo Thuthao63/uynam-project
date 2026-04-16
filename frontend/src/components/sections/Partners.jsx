@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-
-const partners = [
-  { name: "Viglacera", logo: "VIGLACERA" },
-  { name: "Hòa Phát", logo: "HOA PHAT" },
-  { name: "Jotun Paints", logo: "JOTUN" },
-  { name: "Daikin", logo: "DAIKIN" },
-  { name: "Toto", logo: "TOTO" },
-  { name: "Sika", logo: "SIKA" }
-];
+import axios from 'axios';
 
 const Partners = () => {
+  const [partners, setPartners] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPartners = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/partners');
+        setPartners(res.data);
+      } catch (err) { console.error(err); }
+      finally { setLoading(false); }
+    };
+    fetchPartners();
+  }, []);
+
+  if (loading && partners.length === 0) return null;
   return (
     <section className="py-20 bg-white border-t border-slate-50">
       <div className="max-w-7xl mx-auto px-6">

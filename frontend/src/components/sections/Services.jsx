@@ -1,39 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import axios from 'axios';
 
 const Services = () => {
-  // Trạng thái để lưu dịch vụ đang được chọn để xem chi tiết
   const [selectedService, setSelectedService] = useState(null);
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const services = [
-  {
-    id: "01",
-    title: "Thiết kế Kiến trúc",
-    desc: "Sáng tạo không gian sống hiện đại, tối ưu công năng và thẩm mỹ theo cá tính chủ nhân.",
-    detail: "Giải pháp thiết kế từ kiến trúc mặt tiền đến bố trí công năng. Chúng tôi tư vấn phong thủy và vật liệu mới nhất.",
-    // Link ảnh kiến trúc ổn định
-    image: "https://images.pexels.com/photos/157811/pexels-photo-157811.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", 
-    features: ["Bản vẽ 3D ngoại thất", "Hồ sơ kỹ thuật thi công", "Xin phép xây dựng"]
-  },
-  {
-    id: "02",
-    title: "Thi công Trọn gói",
-    desc: "Chìa khóa trao tay với quy trình kiểm soát chất lượng nghiêm ngặt từng công đoạn.",
-    detail: "Uy Nam cam kết quản lý nhân công, vật tư minh bạch, thi công đúng tiến độ và không phát sinh chi phí.",
-    // Link ảnh thi công xây dựng ổn định
-    image: "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",  
-    features: ["Quản lý dự án chuyên nghiệp", "Cam kết không phát sinh", "Bảo hành kết cấu 10 năm"]
-  },
-  {
-    id: "03",
-    title: "Thiết kế Nội thất",
-    desc: "Kiến tạo không gian nội thất sang trọng, tinh tế với vật liệu cao cấp và hiện đại.",
-    detail: "Tập trung vào trải nghiệm người dùng với vật liệu may đo cao cấp, tạo nên sự sang trọng cho gia đình bạn.",
-    // Link ảnh nội thất ổn định
-    image: "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", 
-    features: ["Phối cảnh 3D nội thất", "Sản xuất đồ gỗ may đo", "Thi công lắp đặt hoàn thiện"]
-  }
-];
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/services');
+        // Xử lý chuyển đổi features từ chuỗi sang mảng
+        const processed = res.data.map(s => ({
+          ...s,
+          features: s.features ? s.features.split(',').map(f => f.trim()) : []
+        }));
+        setServices(processed);
+      } catch (err) { console.error(err); }
+      finally { setLoading(false); }
+    };
+    fetchServices();
+  }, []);
+
+  if (loading && services.length === 0) return null;
 
   return (
     <section id="services-section" className="py-32 bg-white overflow-hidden relative">

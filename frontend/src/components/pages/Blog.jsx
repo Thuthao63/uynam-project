@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-
-const posts = [
-  { id: 1, category: "Phong Thuỷ", title: "Năm 2026 Xây Nhà Hướng Nào Đẹp Nhất?", image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80", date: "16 Tháng 4, 2026" },
-  { id: 2, category: "Kiến Thức", title: "Phân biệt Xây Thô và Hoàn Thiện: Những Lỗi Sai Thường Gặp", image: "https://images.unsplash.com/photo-1541888086925-ebbc31bcbdce?auto=format&fit=crop&q=80", date: "12 Tháng 4, 2026" },
-  { id: 3, category: "Nội Thất", title: "Bắt Cận Cảnh Xu Hướng Nội Thất Gỗ Óc Chó 2026", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80", date: "10 Tháng 4, 2026" },
-  { id: 4, category: "Vật Liệu", title: "Có Nên Dùng Gạch Kính Để Lấy Sáng Không?", image: "https://images.unsplash.com/photo-1504307651254-35682f94a1d8?auto=format&fit=crop&q=80", date: "05 Tháng 4, 2026" },
-];
+import axios from 'axios';
 
 const Blog = () => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/blogs');
+        setPosts(res.data);
+      } catch (err) { console.error(err); }
+      finally { setLoading(false); }
+    };
+    fetchPosts();
+  }, []);
+
+  if (loading && posts.length === 0) return null;
   return (
     <div className="bg-slate-50 min-h-screen py-32 px-6">
       <div className="max-w-7xl mx-auto">
