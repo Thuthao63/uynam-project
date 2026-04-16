@@ -3,7 +3,7 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const socket = io('http://localhost:5000');
+const socket = io("https://uynam-backend.onrender.com");
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
