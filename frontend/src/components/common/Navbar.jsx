@@ -14,6 +14,9 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const hasDarkHero = location.pathname === '/' || location.pathname === '/workflow';
+  const navSolid = isScrolled || !hasDarkHero;
+
   const handleNavClick = (id, isPage = false) => {
     if (isPage) {
       navigate(id);
@@ -37,7 +40,7 @@ const Navbar = () => {
 
   return (
     <nav className={`fixed top-0 left-0 w-full z-[9999] transition-all duration-700 px-6 md:px-12 ${
-      isScrolled ? 'py-4 bg-white/90 backdrop-blur-md shadow-sm' : 'py-8 bg-transparent'
+      navSolid ? 'py-4 bg-white/90 backdrop-blur-md shadow-sm' : 'py-8 bg-transparent'
     }`}>
       <div className="max-w-[1600px] mx-auto flex justify-between items-center">
         
@@ -47,12 +50,12 @@ const Navbar = () => {
           className="cursor-pointer group flex flex-col items-start"
         >
           <span className={`text-2xl font-black tracking-tighter transition-colors duration-500 ${
-            isScrolled ? 'text-slate-900' : 'text-white'
+            navSolid ? 'text-slate-900' : 'text-white'
           }`}>
             UY NAM
           </span>
           <span className={`text-[8px] font-bold uppercase tracking-[0.4em] transition-colors duration-500 ${
-            isScrolled ? 'text-blue-600' : 'text-blue-400'
+            navSolid ? 'text-blue-600' : 'text-blue-400'
           }`}>
             Construction
           </span>
@@ -71,8 +74,8 @@ const Navbar = () => {
               key={item.label}
               onClick={() => handleNavClick(item.id, item.type === 'page')}
               className={`relative text-[10px] font-black uppercase tracking-[0.25em] transition-all duration-500 group ${
-                isScrolled ? 'text-slate-600 hover:text-blue-600' : 'text-white/70 hover:text-white'
-              } ${isActive(item.id) ? (isScrolled ? 'text-blue-600' : 'text-white') : ''}`}
+                navSolid ? 'text-slate-600 hover:text-blue-600' : 'text-white/70 hover:text-white'
+              } ${isActive(item.id) ? (navSolid ? 'text-blue-600' : 'text-white') : ''}`}
             >
               {item.label}
               {/* Line chỉ xuất hiện khi hover hoặc active */}
@@ -87,7 +90,7 @@ const Navbar = () => {
         <button 
           onClick={() => handleNavClick('contact-section')}
           className={`px-8 py-3 text-[10px] font-black uppercase tracking-[0.2em] border transition-all duration-500 ${
-            isScrolled 
+            navSolid 
             ? 'border-slate-900 bg-slate-900 text-white hover:bg-transparent hover:text-slate-900' 
             : 'border-white text-white hover:bg-white hover:text-slate-900'
           }`}

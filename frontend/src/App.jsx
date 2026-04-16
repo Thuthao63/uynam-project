@@ -4,23 +4,23 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 
 // Import Components
-import Navbar from './components/Navbar';
-import ProjectCard from './components/ProjectCard';
-import ContactForm from './components/ContactForm'; 
-import Services from './components/Services'; 
-import AdminPage from './components/AdminPage';
-import ScrollToTop from './components/ScrollToTop';
-import Counter from './components/Counter'; 
-import ContactSocial from './components/ContactSocial';
-import Workflow from './components/Workflow'; // TRANG MỚI 1
-import About from './components/About'; // TRANG MỚI 2
+import Navbar from './components/common/Navbar';
+import ProjectCard from './components/projects/ProjectCard';
+import ContactForm from './components/contact/ContactForm';
+import Services from './components/sections/Services';
+import AdminPage from './components/admin/AdminPage';
+import ScrollToTop from './components/common/ScrollToTop';
+import Counter from './components/common/Counter';
+import ContactSocial from './components/contact/ContactSocial';
+import Workflow from './components/sections/Workflow';
+import About from './components/sections/About';
 
 // --- COMPONENT TRANG CHỦ (HOMEPAGE) ---
 const HomePage = ({ projects, loading }) => {
   const [filter, setFilter] = useState('Tất cả');
 
-  const filteredProjects = filter === 'Tất cả' 
-    ? projects 
+  const filteredProjects = filter === 'Tất cả'
+    ? projects
     : projects.filter(p => p.category === filter);
 
   return (
@@ -35,33 +35,33 @@ const HomePage = ({ projects, loading }) => {
         </div>
 
         <div className="relative z-10 text-center px-6">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-white text-xs md:text-xl font-light tracking-[0.6em] uppercase mb-4 opacity-80"
           >
             Kiến tạo không gian • Dựng xây hạnh phúc
           </motion.h2>
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
             className="text-5xl md:text-8xl font-black text-white leading-none tracking-tighter mb-8"
           >
-            UY NAM <br /> 
+            UY NAM <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2885e1] to-yellow-200">
               CONSTRUCTION
             </span>
           </motion.h1>
           <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
-            <button 
-              onClick={() => document.getElementById('project-section').scrollIntoView({behavior: 'smooth'})} 
+            <button
+              onClick={() => document.getElementById('project-section').scrollIntoView({ behavior: 'smooth' })}
               className="bg-[#2d86f4] text-white px-12 py-4 rounded-sm font-black hover:bg-white hover:text-black transition-all uppercase text-[11px] tracking-widest shadow-2xl cursor-pointer"
             >
               Xem dự án thi công
             </button>
-            <button 
-              onClick={() => document.getElementById('contact-section').scrollIntoView({behavior: 'smooth'})} 
+            <button
+              onClick={() => document.getElementById('contact-section').scrollIntoView({ behavior: 'smooth' })}
               className="bg-transparent border border-white/30 text-white px-12 py-4 rounded-sm font-bold hover:bg-white/10 transition-all uppercase text-[11px] tracking-widest cursor-pointer backdrop-blur-sm"
             >
               Yêu cầu báo giá
@@ -79,7 +79,7 @@ const HomePage = ({ projects, loading }) => {
             { n: '50+', t: 'KTS & Kỹ sư' },
             { n: '100%', t: 'Hài lòng' }
           ].map((item, idx) => (
-            <motion.div 
+            <motion.div
               key={idx}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -108,22 +108,21 @@ const HomePage = ({ projects, loading }) => {
             <h2 className="text-slate-400 text-xs font-bold tracking-[0.4em] uppercase mb-4">Portfolio</h2>
             <h3 className="text-4xl md:text-5xl font-black text-[#002366] tracking-tighter uppercase">Dự án nổi bật</h3>
           </div>
-          
+
           <div className="flex flex-wrap gap-2">
             {['Tất cả', 'Nhà phố', 'Biệt thự', 'Nội thất'].map((cat) => (
-              <button 
-                key={cat} 
-                onClick={() => setFilter(cat)} 
-                className={`px-6 py-2 rounded-lg text-[11px] font-bold uppercase transition-all ${
-                  filter === cat ? 'bg-[#002366] text-white shadow-lg' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
-                } cursor-pointer`}
+              <button
+                key={cat}
+                onClick={() => setFilter(cat)}
+                className={`px-6 py-2 rounded-lg text-[11px] font-bold uppercase transition-all ${filter === cat ? 'bg-[#002366] text-white shadow-lg' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                  } cursor-pointer`}
               >
                 {cat}
               </button>
             ))}
           </div>
         </div>
-        
+
         {loading ? (
           <div className="h-96 flex flex-col items-center justify-center space-y-4">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d86f4]"></div>
@@ -141,9 +140,9 @@ const HomePage = ({ projects, loading }) => {
       {/* --- SECTION 6: LIÊN HỆ --- */}
       <section id="contact-section" className="relative py-24 bg-slate-900 overflow-hidden text-center">
         <div className="relative z-10 max-w-4xl mx-auto px-6">
-            <h2 className="text-blue-400 text-sm font-bold tracking-[0.4em] uppercase mb-4">Kết nối</h2>
-            <h3 className="text-4xl font-black text-white uppercase tracking-tighter mb-12">Báo giá & Tư vấn</h3>
-            <ContactForm />
+          <h2 className="text-blue-400 text-sm font-bold tracking-[0.4em] uppercase mb-4">Kết nối</h2>
+          <h3 className="text-4xl font-black text-white uppercase tracking-tighter mb-12">Báo giá & Tư vấn</h3>
+          <ContactForm />
         </div>
       </section>
 
@@ -216,19 +215,19 @@ function App() {
 
   return (
     <BrowserRouter>
-      <ScrollToTop /> 
-      <Navbar /> 
-      
+      <ScrollToTop />
+      <Navbar />
+
       <Routes>
         {/* Trang chủ */}
         <Route path="/" element={<HomePage projects={projects} loading={loading} />} />
-        
+
         {/* Trang con: Quy trình */}
-        <Route path="/workflow" element={<div className="pt-20"><Workflow /><Footer /></div>} />
-        
+        <Route path="/workflow" element={<div><Workflow /><Footer /></div>} />
+
         {/* Trang con: Giới thiệu */}
-        <Route path="/about" element={<div className="pt-20"><About /><Footer /></div>} />
-        
+        <Route path="/about" element={<div className="pt-28"><About /><Footer /></div>} />
+
         {/* Trang Admin */}
         <Route path="/admin" element={<AdminPage projects={projects} onProjectAdded={fetchProjects} onDeleteProject={fetchProjects} />} />
       </Routes>
