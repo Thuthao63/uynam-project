@@ -227,6 +227,10 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage projects={projects} loading={loading} settings={settings} />} />
         
+        {/* Projects Routes */}
+        <Route path="/projects" element={<AllProjects projects={projects} loading={loading} />} />
+        <Route path="/projects/:id" element={<ProjectDetail projects={projects} loading={loading} />} />
+
         {/* ... các route khác giữ nguyên ... */}
 
         {/* Bảo mật Admin */}
