@@ -82,7 +82,7 @@ const ContactList = () => {
 
   const handleDelete = (id) => {
     if (window.confirm('Xác nhận xóa yêu cầu này?')) {
-      axios.delete(`/contacts/${id}`)
+      axios.delete(`/api/contacts/${id}`)
         .then(() => fetchContacts())
         .catch(() => alert("Xóa thất bại!"));
     }
