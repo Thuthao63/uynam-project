@@ -1,93 +1,172 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useSpring } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const steps = [
-  { id: '01', title: 'Tư vấn & Khảo sát', desc: 'Uy Nam tiếp nhận yêu cầu, kiến trúc sư trực tiếp đến đo đạc hiện trạng và tư vấn giải pháp tối ưu về công năng lẫn phong thủy.', icon: '📏' },
-  { id: '02', title: 'Thiết kế sơ bộ (3D)', desc: 'Lên ý tưởng mặt bằng 2D và phối cảnh 3D giúp khách hàng hình dung rõ nét về tổ ấm tương lai trước khi thi công.', icon: '✍️' },
-  { id: '03', title: 'Báo giá & Ký hợp đồng', desc: 'Bóc tách khối lượng vật tư chi tiết, minh bạch. Cam kết không phát sinh chi phí trong suốt quá trình xây dựng.', icon: '📄' },
-  { id: '04', title: 'Thi công & Giám sát', desc: 'Triển khai xây dựng phần thô và hoàn thiện. Đội ngũ kỹ sư giám sát chặt chẽ 24/7 đảm bảo đúng kỹ thuật.', icon: '🏗️' },
-  { id: '05', title: 'Bàn giao & Bảo hành', desc: 'Vệ sinh công nghiệp, nghiệm thu tổng thể và bàn giao chìa khóa. Kích hoạt chính sách bảo trì trọn đời.', icon: '🔑' }
+  { 
+    id: '01', 
+    title: 'Khảo sát & Định hướng', 
+    desc: 'Kiến trúc sư Uy Nam trực tiếp khảo sát địa hình, phân tích hướng nắng, gió và tư vấn phong thủy ngay tại khu đất của bạn.',
+    image: 'https://images.unsplash.com/photo-1503387762-592dea58ef21?auto=format&fit=crop&q=80&w=800',
+    icon: '📍' 
+  },
+  { 
+    id: '02', 
+    title: 'Thiết kế Phối cảnh 3D', 
+    desc: 'Chạm tay vào không gian sống mơ ước thông qua bản vẽ VR/3D sống động, giúp bạn điều chỉnh từng góc nhỏ trước khi đặt gạch.',
+    image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800',
+    icon: '📐' 
+  },
+  { 
+    id: '03', 
+    title: 'Bóc tách & Ký kết', 
+    desc: 'Hệ thống báo giá tự động minh bạch từng con ốc, thanh thép. Cam kết "Không phát sinh" bằng hợp đồng pháp lý rõ ràng.',
+    image: 'https://images.unsplash.com/photo-1554469384-e58fac16e23a?auto=format&fit=crop&q=80&w=800',
+    icon: '🤝' 
+  },
+  { 
+    id: '04', 
+    title: 'Thi công & Giám sát Cam', 
+    desc: 'Theo dõi tiến độ qua hệ thống camera 24/7. Đội ngũ kỹ sư cơ hữu giám sát từng mẻ bê tông, đường điện theo tiêu chuẩn Nhật Bản.',
+    image: 'https://images.unsplash.com/photo-1504307651254-35682f94a1d8?auto=format&fit=crop&q=80&w=800',
+    icon: '👷' 
+  },
+  { 
+    id: '05', 
+    title: 'Bàn giao & Bảo trì', 
+    desc: 'Nghiệm thu toàn diện bằng thiết bị chuyên dụng. Kích hoạt gói bảo trì định kỳ 6 tháng/lần trọn đời tổ ấm.',
+    image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=800',
+    icon: '🏠' 
+  }
 ];
 
 const Workflow = () => {
+  const navigate = useNavigate();
+  const { scrollYProgress } = useScroll();
+  const scaleY = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
   return (
-    <div className="min-h-screen bg-[#f8fafc] font-sans">
+    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100">
       
-      {/* 1. HERO SECTION - Cố định độ cao và khoảng cách */}
-      <section className="bg-[#0f172a] pt-32 pb-20 px-6 relative overflow-hidden">
-        {/* Blur effect trang trí */}
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-500/10 blur-[120px] rounded-full"></div>
+      {/* 1. HERO SECTION - Đẳng cấp hơn với Parallax nhẹ */}
+      <section className="relative h-[70vh] flex items-center justify-center bg-[#0a0a0a] overflow-hidden">
+        <div className="absolute inset-0 opacity-40">
+          <img 
+            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2000" 
+            className="w-full h-full object-cover"
+            alt="Architecture"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-white"></div>
+        </div>
         
-        <div className="max-w-4xl mx-auto text-center relative z-10">
+        <div className="relative z-10 text-center px-6">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
           >
-            <p className="text-blue-400 text-[10px] font-black uppercase tracking-[0.4em] mb-4">Uy Nam Construction</p>
-            <h1 className="text-4xl md:text-6xl font-black text-white leading-[1.1] uppercase tracking-tighter">
-              Quy trình xây dựng <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-200 italic">chuyên nghiệp</span>
+            <span className="inline-block px-4 py-1 rounded-full border border-blue-400/30 text-blue-400 text-[10px] font-black uppercase tracking-[0.4em] mb-6 backdrop-blur-md">
+              Work Process
+            </span>
+            <h1 className="text-5xl md:text-8xl font-black text-white leading-none tracking-tighter">
+              QUY TRÌNH <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-100 italic">TẠO TÁC</span>
             </h1>
           </motion.div>
         </div>
       </section>
 
-      {/* 2. TIMELINE SECTION - Xử lý Grid để không bị lệch */}
-      <section className="py-24 px-6">
-        <div className="max-w-5xl mx-auto relative">
-          
-          {/* Đường line trung tâm (Chỉ hiện trên desktop) */}
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-[2px] bg-slate-200 -translate-x-1/2"></div>
+      {/* 2. TIMELINE SECTION - Design lại hoàn toàn */}
+      <section className="relative py-32 px-6 max-w-7xl mx-auto">
+        
+        {/* Progress Line mượt mà */}
+        <motion.div 
+          style={{ scaleY }}
+          className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-blue-500 to-transparent origin-top hidden md:block"
+        />
 
-          <div className="space-y-12 md:space-y-0">
-            {steps.map((step, index) => (
-              <div key={step.id} className="relative flex flex-col md:flex-row items-center">
-                
-                {/* Nội dung trái/phải */}
-                <div className={`flex w-full md:w-1/2 ${index % 2 === 0 ? 'md:justify-end md:pr-16' : 'md:order-last md:pl-16'}`}>
-                  <motion.div 
-                    initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    className="bg-white p-8 rounded-[2rem] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] border border-slate-100 w-full hover:shadow-2xl transition-all duration-500 group"
-                  >
-                    <div className="text-4xl mb-4 group-hover:scale-110 transition-transform origin-left">{step.icon}</div>
-                    <p className="text-blue-500 font-black text-[10px] uppercase tracking-widest mb-1">Bước {step.id}</p>
-                    <h4 className="text-xl font-bold text-slate-800 mb-3 uppercase">{step.title}</h4>
-                    <p className="text-slate-500 text-sm leading-relaxed font-light">{step.desc}</p>
-                  </motion.div>
-                </div>
-
-                {/* Nút chấm Timeline giữa */}
-                <div className="absolute left-0 md:left-1/2 w-8 h-8 -translate-x-1/2 bg-[#f8fafc] flex items-center justify-center z-20 hidden md:flex">
-                    <div className="w-3 h-3 bg-blue-500 rounded-full ring-4 ring-blue-100 animate-pulse"></div>
-                </div>
-
+        <div className="space-y-32 md:space-y-48">
+          {steps.map((step, index) => (
+            <div key={step.id} className="relative flex flex-col md:flex-row items-center gap-12">
+              
+              {/* PHẦN ẢNH (Bên trái hoặc phải) */}
+              <div className={`w-full md:w-1/2 ${index % 2 === 0 ? 'md:order-1' : 'md:order-2'}`}>
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  className="relative group rounded-3xl overflow-hidden shadow-2xl aspect-[4/3]"
+                >
+                  <img src={step.image} alt={step.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-blue-900/20 mix-blend-multiply transition-opacity group-hover:opacity-0"></div>
+                  {/* Số Index mờ */}
+                  <span className="absolute -bottom-10 -right-5 text-[15rem] font-black text-white/10 select-none">
+                    {step.id}
+                  </span>
+                </motion.div>
               </div>
-            ))}
-          </div>
+
+              {/* PHẦN CHỮ (Đối xứng ảnh) */}
+              <div className={`w-full md:w-1/2 ${index % 2 === 0 ? 'md:order-2' : 'md:order-1'} md:px-12`}>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className={`${index % 2 === 0 ? 'text-left' : 'md:text-right'}`}
+                >
+                  <div className={`flex items-center gap-4 mb-6 ${index % 2 === 0 ? 'justify-start' : 'md:justify-end'}`}>
+                    <span className="text-4xl bg-blue-50 w-16 h-16 flex items-center justify-center rounded-2xl shadow-inner italic font-black text-blue-600">
+                      {step.id}
+                    </span>
+                    <div className="h-[2px] w-12 bg-blue-500/30"></div>
+                  </div>
+                  <h3 className="text-3xl md:text-4xl font-black text-slate-800 uppercase tracking-tighter mb-6">
+                    {step.title}
+                  </h3>
+                  <p className="text-slate-500 text-lg font-light leading-relaxed">
+                    {step.desc}
+                  </p>
+                </motion.div>
+              </div>
+
+              {/* Điểm nhấn Timeline chính giữa */}
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 hidden md:block">
+                <div className="w-4 h-4 bg-white border-4 border-blue-500 rounded-full shadow-[0_0_20px_rgba(59,130,246,0.5)]"></div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* 3. CTA SECTION - Gọn gàng */}
-      <section className="max-w-4xl mx-auto px-6 pb-24">
-        <motion.div 
-          whileHover={{ scale: 1.01 }}
-          className="bg-[#1e293b] p-10 md:p-16 rounded-[3rem] text-center relative overflow-hidden"
-        >
-          <div className="relative z-10">
-            <h4 className="text-white text-2xl md:text-4xl font-black uppercase mb-4 tracking-tighter">Bạn cần tư vấn chi tiết?</h4>
-            <p className="text-slate-400 text-sm mb-10 max-w-md mx-auto">Đội ngũ kiến trúc sư của Uy Nam luôn sẵn sàng lắng nghe và giải đáp mọi thắc mắc của bạn.</p>
-            <button className="bg-blue-500 text-white px-12 py-4 rounded-full font-black uppercase text-[11px] tracking-[0.2em] hover:bg-white hover:text-blue-600 transition-all shadow-xl">
-              Gửi yêu cầu báo giá
-            </button>
-          </div>
-          {/* Decor background */}
-          <div className="absolute top-0 left-0 w-full h-full bg-blue-600 opacity-[0.03] pointer-events-none"></div>
-        </motion.div>
+      {/* 3. CTA TRƯỜNG PHÁI TỐI GIẢN (MINIMALISM) */}
+      <section className="py-32 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl md:text-6xl font-black mb-12 tracking-tighter uppercase leading-none">
+            Mọi tổ ấm lớn <br /> đều bắt đầu từ một <span className="text-blue-500 italic">cuộc trò chuyện.</span>
+          </h2>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => {
+              navigate('/'); // Quay về trang chủ
+              setTimeout(() => {
+                // Đợi trang chủ load xong thì cuộn xuống mục liên hệ
+                const contactSection = document.getElementById('contact-section');
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }, 100);
+            }}
+            className="bg-slate-900 text-white px-16 py-6 rounded-full font-black text-[12px] uppercase tracking-[0.3em] shadow-2xl hover:bg-blue-600 transition-colors"
+          >
+            Bắt đầu dự án ngay
+          </motion.button>
+        </div>
       </section>
-
     </div>
   );
 };
