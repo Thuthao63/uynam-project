@@ -1,4 +1,7 @@
 const Project = require('../models/Project');
+const Testimonial = require('../models/Testimonial');
+const FAQ = require('../models/FAQ');
+const HomeContent = require('../models/HomeContent');
 
 const sampleProjects = [
     {
@@ -27,16 +30,51 @@ const sampleProjects = [
     }
 ];
 
+const sampleTestimonials = [
+    { name: "Nguyễn Văn Hùng", role: "Chủ biệt thự tại Hòa Xuân", content: "Tôi rất hài lòng với quy trình làm việc chuyên nghiệp của Uy Nam. Từ khâu thiết kế đến thi công trọn gói đều đúng tiến độ và cam kết vật liệu.", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80" },
+    { name: "Trần Thị Thu Thảo", role: "Kinh doanh tự do", content: "Đội ngũ kiến trúc sư tại Uy Nam rất lắng nghe khách hàng. Căn nhà phố của tôi được tối ưu ánh sáng tự nhiên tuyệt vời.", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80" }
+];
+
+const sampleFAQs = [
+    { question: "Đơn giá xây dựng trọn gói của Uy Nam là bao nhiêu?", answer: "Đơn giá xây dựng trọn gói tại Uy Nam hiện dao động từ 5.500.000 - 8.000.000 VNĐ/m2 tùy vào phong cách thiết kế và yêu cầu vật tư hoàn thiện." },
+    { question: "Công ty có miễn phí chi phí thiết kế không?", answer: "Có, Uy Nam sẽ miễn phí 100% chi phí thiết kế kiến trúc khi quý khách hàng ký hợp đồng thi công trọn gói với chúng tôi." }
+];
+
+const sampleHomeContent = [
+    { key: "stat_projects", value: "1000+", category: "Stats" },
+    { key: "stat_experience", value: "10+", category: "Stats" },
+    { key: "stat_engineers", value: "50+", category: "Stats" },
+    { key: "stat_satisfaction", value: "100%", category: "Stats" },
+    { key: "hero_title", value: "UY NAM CONSTRUCTION", category: "Hero" },
+    { key: "hero_subtitle", value: "Kiến tạo không gian • Dựng xây hạnh phúc", category: "Hero" }
+];
+
 const seedDatabase = async () => {
     try {
-        const count = await Project.count();
-        if (count === 0) {
-            console.log("🌱 Database trống. Đang tiến hành tạo dữ liệu mẫu (Seeding)...");
+        // Seed Projects
+        if (await Project.count() === 0) {
             await Project.bulkCreate(sampleProjects);
-            console.log("✅ Tạo dữ liệu mẫu thành công! Web sẽ không còn trống nữa.");
-        } else {
-            console.log("⚡ Database đã có dữ liệu, tự động bỏ qua bước Seeding.");
+            console.log("✅ Seeded Projects");
         }
+        
+        // Seed Testimonials
+        if (await Testimonial.count() === 0) {
+            await Testimonial.bulkCreate(sampleTestimonials);
+            console.log("✅ Seeded Testimonials");
+        }
+        
+        // Seed FAQs
+        if (await FAQ.count() === 0) {
+            await FAQ.bulkCreate(sampleFAQs);
+            console.log("✅ Seeded FAQs");
+        }
+        
+        // Seed Home Content
+        if (await HomeContent.count() === 0) {
+            await HomeContent.bulkCreate(sampleHomeContent);
+            console.log("✅ Seeded Home Content");
+        }
+
     } catch (error) {
         console.error("❌ Lỗi khi Seeding dữ liệu:", error);
     }

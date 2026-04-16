@@ -7,6 +7,9 @@ const seedDatabase = require('./src/config/seed');
 const projectRoutes = require('./src/routes/projectRoutes');
 const contactRoutes = require('./src/routes/contactRoutes');
 const authRoutes = require('./src/routes/authRoutes');
+const testimonialRoutes = require('./src/routes/testimonialRoutes');
+const faqRoutes = require('./src/routes/faqRoutes');
+const homeRoutes = require('./src/routes/homeRoutes');
 require('dotenv').config();
 
 const app = express();
@@ -33,6 +36,9 @@ app.use((req, res, next) => {
 app.use('/api/projects', projectRoutes);
 app.use('/api/contacts', contactRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/testimonials', testimonialRoutes);
+app.use('/api/faqs', faqRoutes);
+app.use('/api/home-content', homeRoutes);
 
 // 6. Lắng nghe tín hiệu kết nối từ Frontend
 io.on('connection', (socket) => {

@@ -9,6 +9,8 @@ import ProjectCard from './components/projects/ProjectCard';
 import ContactForm from './components/contact/ContactForm';
 import Services from './components/sections/Services';
 import AdminPage from './components/admin/AdminPage';
+import AdminNavbar from './components/admin/AdminNavbar';
+import { useLocation } from 'react-router-dom';
 import ScrollToTop from './components/common/ScrollToTop';
 import Counter from './components/common/Counter';
 import ContactSocial from './components/contact/ContactSocial';
@@ -16,13 +18,18 @@ import Workflow from './components/sections/Workflow';
 import About from './components/sections/About';
 import ServicePage from './components/sections/ServicePage';
 import Blog from './components/pages/Blog';
+import BlogDetail from './components/pages/BlogDetail';
+import Testimonials from './components/sections/Testimonials';
+import Partners from './components/sections/Partners';
+import FAQ from './components/sections/FAQ';
+import Footer from './components/common/Footer';
 import NotFound from './components/pages/NotFound';
 import Login from './components/admin/Login';
 import AllProjects from './components/projects/AllProjects';
 import ProjectDetail from './components/projects/ProjectDetail';
 
 // --- COMPONENT TRANG CHỦ (HOMEPAGE) ---
-const HomePage = ({ projects, loading }) => {
+const HomePage = ({ projects, loading, settings }) => {
   const [filter, setFilter] = useState('Tất cả');
 
   const filteredProjects = filter === 'Tất cả'
@@ -46,7 +53,7 @@ const HomePage = ({ projects, loading }) => {
             animate={{ opacity: 1, y: 0 }}
             className="text-white text-xs md:text-xl font-light tracking-[0.6em] uppercase mb-4 opacity-80"
           >
-            Kiến tạo không gian • Dựng xây hạnh phúc
+            {settings.hero_subtitle || "Kiến tạo không gian • Dựng xây hạnh phúc"}
           </motion.h2>
           <motion.h1
             initial={{ opacity: 0, scale: 0.9 }}
@@ -54,10 +61,7 @@ const HomePage = ({ projects, loading }) => {
             transition={{ delay: 0.2 }}
             className="text-5xl md:text-8xl font-black text-white leading-none tracking-tighter mb-8"
           >
-            UY NAM <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2885e1] to-yellow-200">
-              CONSTRUCTION
-            </span>
+            {settings.hero_title || "UY NAM CONSTRUCTION"}
           </motion.h1>
           <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
             <button
@@ -80,10 +84,10 @@ const HomePage = ({ projects, loading }) => {
       <section className="bg-[#002366] py-20 px-6">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
           {[
-            { n: '1000+', t: 'Công trình' },
-            { n: '10+', t: 'Năm kinh nghiệm' },
-            { n: '50+', t: 'KTS & Kỹ sư' },
-            { n: '100%', t: 'Hài lòng' }
+            { n: settings.stat_projects || '1000+', t: 'Công trình' },
+            { n: settings.stat_experience || '10+', t: 'Năm kinh nghiệm' },
+            { n: settings.stat_engineers || '50+', t: 'KTS & Kỹ sư' },
+            { n: settings.stat_satisfaction || '100%', t: 'Hài lòng' }
           ].map((item, idx) => (
             <motion.div
               key={idx}
@@ -143,7 +147,16 @@ const HomePage = ({ projects, loading }) => {
         )}
       </main>
 
-      {/* --- SECTION 6: LIÊN HỆ --- */}
+      {/* --- SECTION 6: TESTIMONIALS --- */}
+      <Testimonials />
+
+      {/* --- SECTION 7: FAQ --- */}
+      <FAQ />
+
+      {/* --- SECTION 8: PARTNERS --- */}
+      <Partners />
+
+      {/* --- SECTION 9: LIÊN HỆ --- */}
       <section id="contact-section" className="relative py-24 bg-slate-900 overflow-hidden text-center">
         <div className="relative z-10 max-w-4xl mx-auto px-6">
           <h2 className="text-blue-400 text-sm font-bold tracking-[0.4em] uppercase mb-4">Kết nối</h2>
@@ -158,57 +171,23 @@ const HomePage = ({ projects, loading }) => {
   );
 }
 
-// --- TÁCH COMPONENT FOOTER ĐỂ DÙNG CHUNG ---
-const Footer = () => (
-  <footer className="bg-white pt-20 pb-10 border-t border-slate-100">
-    <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-16 mb-16 text-left">
-      <div>
-        <h4 className="text-xl font-black text-[#002366] mb-6 tracking-tighter uppercase">UY NAM CONSTRUCTION</h4>
-        <p className="text-slate-500 text-xs leading-relaxed italic opacity-70">
-          "Kiến tạo không gian - Dựng xây hạnh phúc. Chúng tôi mang đến giải pháp kiến trúc bền vững cho ngôi nhà Việt."
-        </p>
-      </div>
-      <div>
-        <h4 className="text-[11px] font-black text-slate-800 uppercase tracking-widest mb-6">Thông tin</h4>
-        <div className="text-slate-500 text-xs space-y-3">
-          <p>📍 TP. Đà Nẵng, Việt Nam</p>
-          <p>📞 0903 131 893</p>
-          <p>✉️ contact@uynam.vn</p>
-        </div>
-      </div>
-      <div>
-        <h4 className="text-[11px] font-black text-slate-800 uppercase tracking-widest mb-6">Liên kết</h4>
-        <div className="text-slate-500 text-xs space-y-3 flex flex-col">
-          <Link to="/about" className="hover:text-blue-500">Về chúng tôi</Link>
-          <Link to="/workflow" className="hover:text-blue-500">Quy trình làm việc</Link>
-          <Link to="/" className="hover:text-blue-500">Dự án thi công</Link>
-        </div>
-      </div>
-    </div>
-
-    <div className="border-t border-slate-50 pt-10 flex flex-col items-center gap-4">
-      <Link to="/admin" className="group flex items-center gap-2 text-[9px] text-slate-300 hover:text-[#2d86f4] transition-all uppercase tracking-[0.3em] font-medium">
-        <span className="w-1 h-1 bg-slate-200 group-hover:bg-[#2d86f4] rounded-full"></span>
-        Internal System Access
-      </Link>
-      <p className="text-slate-300 text-[10px] font-bold uppercase tracking-[0.3em]">
-        © 2026 Uy Nam Design • Built by Thảo Nguyễn
-      </p>
-    </div>
-  </footer>
-);
 
 // --- APP COMPONENT ---
 function App() {
   const [projects, setProjects] = useState([]);
+  const [settings, setSettings] = useState({});
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const fetchProjects = async () => {
+  const fetchInitialData = async () => {
     try {
       setLoading(true);
-      const res = await axios.get('http://localhost:5000/api/projects');
-      setProjects(res.data);
+      const [projRes, setRes] = await Promise.all([
+        axios.get('http://localhost:5000/api/projects'),
+        axios.get('http://localhost:5000/api/home-content')
+      ]);
+      setProjects(projRes.data);
+      setSettings(setRes.data);
     } catch (err) {
       console.error("Lỗi server:", err);
     } finally {
@@ -217,23 +196,34 @@ function App() {
   };
 
   useEffect(() => {
-    fetchProjects();
+    fetchInitialData();
   }, []);
 
+  const location = useLocation();
+  const isAdminPath = location.pathname.startsWith('/admin') || location.pathname === '/login';
+
   return (
-    <BrowserRouter>
+    <>
       <ScrollToTop />
-      <Navbar />
+      
+      {/* Chỉ hiện Navbar chính nếu không phải trang Admin/Login */}
+      {!isAdminPath && <Navbar />}
+      
+      {/* Hiện AdminNavbar nếu đã đăng nhập và đang ở trang admin */}
+      {isAuthenticated && location.pathname.startsWith('/admin') && (
+        <AdminNavbar onLogout={setIsAuthenticated} />
+      )}
 
       <Routes>
         {/* Trang chủ */}
-        <Route path="/" element={<HomePage projects={projects} loading={loading} />} />
+        <Route path="/" element={<HomePage projects={projects} loading={loading} settings={settings} />} />
 
         {/* Các trang mở rộng */}
         <Route path="/workflow" element={<div><Workflow /><Footer /></div>} />
         <Route path="/about" element={<div className="pt-28"><About /><Footer /></div>} />
         <Route path="/services" element={<div className="pt-0"><ServicePage /><Footer /></div>} />
         <Route path="/blog" element={<div className="pt-0"><Blog /><Footer /></div>} />
+        <Route path="/blog/:id" element={<div className="pt-0"><BlogDetail /><Footer /></div>} />
 
         {/* Nhóm trang Dự Án */}
         <Route path="/projects" element={<div className="pt-0"><AllProjects projects={projects} loading={loading} /><Footer /></div>} />
@@ -242,10 +232,10 @@ function App() {
         {/* Bảo mật Admin */}
         <Route path="/login" element={<Login onLogin={setIsAuthenticated} />} />
         <Route 
-          path="/admin" 
+          path="/admin/*" 
           element={
             isAuthenticated ? 
-            <AdminPage projects={projects} onProjectAdded={fetchProjects} onDeleteProject={fetchProjects} /> 
+            <AdminPage projects={projects} onProjectAdded={fetchInitialData} onDeleteProject={fetchInitialData} /> 
             : <Navigate to="/login" replace />
           } 
         />
@@ -254,8 +244,8 @@ function App() {
         <Route path="*" element={<div className="pt-0"><NotFound /><Footer /></div>} />
       </Routes>
 
-      <ContactSocial />
-    </BrowserRouter>
+      {!isAdminPath && <ContactSocial />}
+    </>
   );
 }
 

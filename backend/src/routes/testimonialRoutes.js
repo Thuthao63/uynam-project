@@ -1,0 +1,26 @@
+const express = require('express');
+const router = express.Router();
+const Testimonial = require('../models/Testimonial');
+
+router.get('/', async (req, res) => {
+    try {
+        const data = await Testimonial.findAll({ order: [['createdAt', 'DESC']] });
+        res.json(data);
+    } catch (error) { res.status(500).json({ message: error.message }); }
+});
+
+router.post('/', async (req, res) => {
+    try {
+        const newItem = await Testimonial.create(req.body);
+        res.status(201).json(newItem);
+    } catch (error) { res.status(400).json({ message: error.message }); }
+});
+
+router.delete('/:id', async (req, res) => {
+    try {
+        await Testimonial.destroy({ where: { id: req.params.id } });
+        res.json({ message: "Xóa thành công" });
+    } catch (error) { res.status(500).json({ message: error.message }); }
+});
+
+module.exports = router;

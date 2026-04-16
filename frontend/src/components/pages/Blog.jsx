@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const posts = [
   { id: 1, category: "Phong Thuỷ", title: "Năm 2026 Xây Nhà Hướng Nào Đẹp Nhất?", image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80", date: "16 Tháng 4, 2026" },
@@ -23,27 +24,28 @@ const Blog = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
           {posts.map((post, idx) => (
-            <motion.div 
-              key={post.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row"
-            >
-              <div className="w-full md:w-2/5 aspect-square overflow-hidden">
-                <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-              </div>
-              <div className="w-full md:w-3/5 p-8 flex flex-col justify-center">
-                <span className="text-xs font-bold uppercase tracking-widest text-blue-500 mb-3">{post.category}</span>
-                <h3 className="text-2xl font-bold text-slate-800 leading-snug group-hover:text-[#002366] transition-colors line-clamp-2">
-                  {post.title}
-                </h3>
-                <p className="mt-8 text-slate-400 text-[11px] font-bold uppercase tracking-widest border-t border-slate-100 pt-4">
-                  {post.date}
-                </p>
-              </div>
-            </motion.div>
+            <Link key={post.id} to={`/blog/${post.id}`}>
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                className="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row h-full"
+              >
+                <div className="w-full md:w-2/5 aspect-square overflow-hidden">
+                  <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                </div>
+                <div className="w-full md:w-3/5 p-8 flex flex-col justify-center">
+                  <span className="text-xs font-bold uppercase tracking-widest text-blue-500 mb-3">{post.category}</span>
+                  <h3 className="text-2xl font-bold text-slate-800 leading-snug group-hover:text-[#002366] transition-colors line-clamp-2">
+                    {post.title}
+                  </h3>
+                  <p className="mt-8 text-slate-400 text-[11px] font-bold uppercase tracking-widest border-t border-slate-100 pt-4">
+                    {post.date}
+                  </p>
+                </div>
+              </motion.div>
+            </Link>
           ))}
         </div>
       </div>
