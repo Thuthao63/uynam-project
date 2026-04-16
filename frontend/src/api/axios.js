@@ -1,11 +1,9 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    // Phải có đầy đủ https:// và KHÔNG có dấu / ở cuối link
+    // Đảm bảo baseURL KHÔNG có dấu / ở cuối
     baseURL: 'https://uynam-backend.onrender.com', 
+    withCredentials: true // <--- DÒNG NÀY CỰC KỲ QUAN TRỌNG ĐỂ LOGIN
 });
-
-// Quan trọng: giúp gửi được thông tin đăng nhập/cookie
-instance.defaults.withCredentials = true;
 
 export default instance;
