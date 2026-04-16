@@ -1,12 +1,11 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: import.meta.env.MODE === 'production' 
-        ? 'https://uynam-backend.onrender.com' 
-        : 'http://localhost:5000',
+    // Phải có đầy đủ https:// và KHÔNG có dấu / ở cuối link
+    baseURL: 'https://uynam-backend.onrender.com', 
 });
 
-// Thêm cái này để nếu Backend có dùng Cookie/Session thì nó sẽ hoạt động
+// Quan trọng: giúp gửi được thông tin đăng nhập/cookie
 instance.defaults.withCredentials = true;
 
 export default instance;
