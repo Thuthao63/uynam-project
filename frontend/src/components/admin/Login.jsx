@@ -14,10 +14,7 @@ const Login = ({ onLogin }) => {
     setError('');
     
     try {
-      const res = await axios.post('/auth/login', {
-        username,
-        password
-      });
+      const response = await axios.post('/api/auth/login', { username, password });
 
       if (res.data.success) {
         onLogin(true);
