@@ -23,8 +23,9 @@ const server = http.createServer(app); // 3. Tạo server tích hợp app expres
 // 4. Cấu hình Socket.io để "nói chuyện" với React
 const io = new Server(server, {
     cors: {
-        origin: "*",
-        methods: ["GET", "POST"]
+        origin: "*", // Cho phép tất cả các nguồn truy cập để test cho nhanh
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        credentials: true
     }
 });
 
