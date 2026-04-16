@@ -65,9 +65,9 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center gap-10">
           {[
             { label: 'Trang chủ', id: 'top', type: 'scroll' },
-            { label: 'Giới thiệu', id: '/about', type: 'page' },
-            { label: 'Quy trình', id: '/workflow', type: 'page' },
-            { label: 'Dự án', id: 'project-section', type: 'scroll' },
+            { label: 'Dự án', id: '/projects', type: 'page' },
+            { label: 'Dịch vụ', id: '/services', type: 'page' },
+            { label: 'Tin tức', id: '/blog', type: 'page' },
             { label: 'Báo giá', id: 'contact-section', type: 'scroll' },
           ].map((item) => (
             <button

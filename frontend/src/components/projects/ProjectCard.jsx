@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const ProjectCard = ({ project, onDelete, isAdmin }) => {
   
@@ -53,9 +54,9 @@ const ProjectCard = ({ project, onDelete, isAdmin }) => {
           {project.description}
         </p>
         <div className="mt-8 pt-6 border-t border-slate-50 flex items-center justify-between">
-          <button className="text-[#002366] font-bold text-xs tracking-widest hover:translate-x-2 transition-transform">
+          <Link to={`/projects/${project.id}`} className="text-[#002366] font-bold text-xs tracking-widest hover:translate-x-2 transition-transform inline-block">
             XEM CHI TIẾT →
-          </button>
+          </Link>
         </div>
       </div>
     </div>

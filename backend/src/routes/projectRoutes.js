@@ -27,6 +27,15 @@ router.get('/', async (req, res) => {
     } catch (error) { res.status(500).json({ message: error.message }); }
 });
 
+// API: Lấy dự án theo ID
+router.get('/:id', async (req, res) => {
+    try {
+        const project = await Project.findByPk(req.params.id);
+        if (!project) return res.status(404).json({ message: "Không tìm thấy dự án" });
+        res.json(project);
+    } catch (error) { res.status(500).json({ message: error.message }); }
+});
+
 // API: Thêm dự án MỚI có Upload ảnh (CẬP NHẬT)
 router.post('/', upload.single('image'), async (req, res) => {
     try {

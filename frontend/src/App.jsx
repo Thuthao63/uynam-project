@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 
@@ -14,6 +14,12 @@ import Counter from './components/common/Counter';
 import ContactSocial from './components/contact/ContactSocial';
 import Workflow from './components/sections/Workflow';
 import About from './components/sections/About';
+import ServicePage from './components/sections/ServicePage';
+import Blog from './components/pages/Blog';
+import NotFound from './components/pages/NotFound';
+import Login from './components/admin/Login';
+import AllProjects from './components/projects/AllProjects';
+import ProjectDetail from './components/projects/ProjectDetail';
 
 // --- COMPONENT TRANG CHỦ (HOMEPAGE) ---
 const HomePage = ({ projects, loading }) => {
@@ -196,6 +202,7 @@ const Footer = () => (
 function App() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const fetchProjects = async () => {
     try {
@@ -222,14 +229,29 @@ function App() {
         {/* Trang chủ */}
         <Route path="/" element={<HomePage projects={projects} loading={loading} />} />
 
-        {/* Trang con: Quy trình */}
+        {/* Các trang mở rộng */}
         <Route path="/workflow" element={<div><Workflow /><Footer /></div>} />
-
-        {/* Trang con: Giới thiệu */}
         <Route path="/about" element={<div className="pt-28"><About /><Footer /></div>} />
+        <Route path="/services" element={<div className="pt-0"><ServicePage /><Footer /></div>} />
+        <Route path="/blog" element={<div className="pt-0"><Blog /><Footer /></div>} />
 
-        {/* Trang Admin */}
-        <Route path="/admin" element={<AdminPage projects={projects} onProjectAdded={fetchProjects} onDeleteProject={fetchProjects} />} />
+        {/* Nhóm trang Dự Án */}
+        <Route path="/projects" element={<div className="pt-0"><AllProjects projects={projects} loading={loading} /><Footer /></div>} />
+        <Route path="/projects/:id" element={<div className="pt-0"><ProjectDetail projects={projects} loading={loading} /><Footer /></div>} />
+
+        {/* Bảo mật Admin */}
+        <Route path="/login" element={<Login onLogin={setIsAuthenticated} />} />
+        <Route 
+          path="/admin" 
+          element={
+            isAuthenticated ? 
+            <AdminPage projects={projects} onProjectAdded={fetchProjects} onDeleteProject={fetchProjects} /> 
+            : <Navigate to="/login" replace />
+          } 
+        />
+
+        {/* Trang lỗi 404 */}
+        <Route path="*" element={<div className="pt-0"><NotFound /><Footer /></div>} />
       </Routes>
 
       <ContactSocial />

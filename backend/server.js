@@ -3,8 +3,10 @@ const cors = require('cors');
 const http = require('http'); // 1. Thêm thư viện http của Node
 const { Server } = require('socket.io'); // 2. Thêm Socket.io
 const { connectDB, sequelize } = require('./src/config/db');
+const seedDatabase = require('./src/config/seed');
 const projectRoutes = require('./src/routes/projectRoutes');
 const contactRoutes = require('./src/routes/contactRoutes');
+const authRoutes = require('./src/routes/authRoutes');
 require('dotenv').config();
 
 const app = express();
@@ -30,6 +32,7 @@ app.use((req, res, next) => {
 
 app.use('/api/projects', projectRoutes);
 app.use('/api/contacts', contactRoutes);
+app.use('/api/auth', authRoutes);
 
 // 6. Lắng nghe tín hiệu kết nối từ Frontend
 io.on('connection', (socket) => {
@@ -47,6 +50,9 @@ const startServer = async () => {
         await connectDB();
         await sequelize.sync({ alter: true }); 
         console.log("✅ Các bảng dữ liệu của Uy Nam đã được đồng bộ!");
+        
+        // Tự động kiểm tra và bơm dữ liệu nếu DB đang trống
+        await seedDatabase();
         
         const PORT = process.env.PORT || 5000;
         
