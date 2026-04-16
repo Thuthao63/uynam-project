@@ -4,13 +4,26 @@ const http = require('http');
 const { Server } = require('socket.io');
 const { connectDB, sequelize } = require('./src/config/db');
 const seedDatabase = require('./src/config/seed');
-// ... (giữ nguyên các dòng import routes)
+
+// --- IMPORT CÁC ROUTES (Thảo kiểm tra tên file trong src/routes nhé) ---
+const projectRoutes = require('./src/routes/projectRoutes');
+const contactRoutes = require('./src/routes/contactRoutes');
+const authRoutes = require('./src/routes/authRoutes');
+const testimonialRoutes = require('./src/routes/testimonialRoutes');
+const faqRoutes = require('./src/routes/faqRoutes');
+const homeRoutes = require('./src/routes/homeRoutes'); // <--- Route cho home-content
+const serviceRoutes = require('./src/routes/serviceRoutes');
+const workflowRoutes = require('./src/routes/workflowRoutes');
+const partnerRoutes = require('./src/routes/partnerRoutes');
+const blogRoutes = require('./src/routes/blogRoutes');
+const teamRoutes = require('./src/routes/teamRoutes');
+
 require('dotenv').config();
 
 const app = express();
 const server = http.createServer(app);
 
-// 1. Khởi tạo Socket.io với cấu hình CORS đồng nhất
+// 1. Khởi tạo Socket.io
 const io = new Server(server, {
     cors: {
         origin: 'https://uynam-project.onrender.com',
@@ -19,7 +32,7 @@ const io = new Server(server, {
     }
 });
 
-// 2. Cấu hình CORS cho Express (CHỈ DÙNG 1 LẦN DUY NHẤT)
+// 2. Cấu hình CORS cho Express
 app.use(cors({
     origin: 'https://uynam-project.onrender.com', 
     methods: ["GET", "POST", "PUT", "DELETE"],
@@ -29,15 +42,27 @@ app.use(cors({
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
-// 3. Middleware để "bắn" io vào mọi request
+// 3. Middleware Socket.io
 app.use((req, res, next) => {
     req.io = io;
     next();
 });
 
-// ... (giữ nguyên các dòng app.use('/api/...') )
+// --- 4. ĐỊNH NGHĨA CÁC ĐƯỜNG DẪN API ---
+// Thảo lưu ý: Tên ở đây phải khớp 100% với tên Axios gọi ở Frontend
+app.use('/api/projects', projectRoutes);
+app.use('/api/home-content', homeRoutes); // <--- Sửa để khớp với axios.get('/api/home-content')
+app.use('/api/services', serviceRoutes);
+app.use('/api/workflows', workflowRoutes);
+app.use('/api/partners', partnerRoutes);
+app.use('/api/faqs', faqRoutes);
+app.use('/api/contacts', contactRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/testimonials', testimonialRoutes);
+app.use('/api/blogs', blogRoutes);
+app.use('/api/teams', teamRoutes);
 
-// 4. Lắng nghe tín hiệu kết nối Real-time
+// 5. Socket.io Events
 io.on('connection', (socket) => {
     console.log(`📡 Thiết bị kết nối Real-time: ${socket.id}`);
     socket.on('client_new_contact', (data) => {
