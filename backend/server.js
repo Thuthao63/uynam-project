@@ -23,7 +23,7 @@ const server = http.createServer(app); // 3. Tạo server tích hợp app expres
 // 4. Cấu hình Socket.io để "nói chuyện" với React
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:5173", // Link web React của Thảo
+        origin: "*",
         methods: ["GET", "POST"]
     }
 });
