@@ -7,6 +7,13 @@ const WorkflowStep = require('../models/WorkflowStep');
 const Partner = require('../models/Partner');
 const BlogPost = require('../models/BlogPost');
 const TeamMember = require('../models/TeamMember');
+const AdminUser = require('../models/AdminUser');
+const { hashPassword } = require('../utils/auth');
+
+const sampleAdminUser = {
+    username: process.env.ADMIN_USER || 'admin',
+    password: process.env.ADMIN_PASS || '123456'
+};
 
 const sampleProjects = [
     {
@@ -72,6 +79,14 @@ const sampleTeam = [
 const seedDatabase = async () => {
     try {
         if (await Project.count() === 0) await Project.bulkCreate(sampleProjects);
+        if (await AdminUser.count() === 0) {
+            const { salt, hash } = hashPassword(sampleAdminUser.password);
+            await AdminUser.create({
+                username: sampleAdminUser.username,
+                passwordHash: hash,
+                salt
+            });
+        }
         if (await Testimonial.count() === 0) await Testimonial.bulkCreate(sampleTestimonials);
         if (await FAQ.count() === 0) await FAQ.bulkCreate(sampleFAQs);
         if (await HomeContent.count() === 0) await HomeContent.bulkCreate(sampleHomeContent);

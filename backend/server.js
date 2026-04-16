@@ -17,6 +17,7 @@ const workflowRoutes = require('./src/routes/workflowRoutes');
 const partnerRoutes = require('./src/routes/partnerRoutes');
 const blogRoutes = require('./src/routes/blogRoutes');
 const teamRoutes = require('./src/routes/teamRoutes');
+const AdminUser = require('./src/models/AdminUser');
 
 require('dotenv').config();
 
