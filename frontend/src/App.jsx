@@ -183,8 +183,8 @@ function App() {
     try {
       setLoading(true);
       const [projRes, setRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/projects'),
-        axios.get('http://localhost:5000/api/home-content')
+        axios.get('/api/projects'),
+        axios.get('/api/home-content')
       ]);
       setProjects(projRes.data);
       setSettings(setRes.data);

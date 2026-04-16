@@ -13,7 +13,7 @@ const BlogManager = () => {
 
     const fetchPosts = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/blogs');
+            const res = await axios.get('/api/blogs');
             setPosts(res.data);
         } catch (err) { console.error(err); }
         finally { setLoading(false); }
@@ -26,7 +26,7 @@ const BlogManager = () => {
         if (imageFile) formData.append('image', imageFile);
 
         try {
-            await axios.post('http://localhost:5000/api/blogs', formData);
+            await axios.post('/api/blogs', formData);
             setNewData({ title: '', category: 'Kiến Thức', summary: '', content: '', author: 'Admin Uy Nam', date: '' });
             setImageFile(null);
             fetchPosts();
@@ -36,7 +36,7 @@ const BlogManager = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Xóa bài viết này?")) {
             try {
-                await axios.delete(`http://localhost:5000/api/blogs/${id}`);
+                await axios.delete(`/api/blogs/${id}`);
                 fetchPosts();
             } catch (err) { alert("Lỗi khi xóa"); }
         }

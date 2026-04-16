@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 router.post('/', upload.single('image'), async (req, res) => {
     try {
         const { orderId, title, desc, detail, features } = req.body;
-        const imageUrl = req.file ? `http://localhost:5000/uploads/${req.file.filename}` : req.body.imageUrl;
+        const imageUrl = `${process.env.BASE_URL || 'http://localhost:5000'}/uploads/${req.file.filename}`;
         const newItem = await Service.create({ orderId, title, desc, detail, features, imageUrl });
         res.status(201).json(newItem);
     } catch (error) { res.status(400).json({ message: error.message }); }

@@ -41,7 +41,7 @@ router.post('/', upload.single('image'), async (req, res) => {
     try {
         const { title, description, category } = req.body;
         // Nếu có file thì lấy đường dẫn file, không thì lấy mặc định
-        const imageUrl = req.file ? `http://localhost:5000/uploads/${req.file.filename}` : "";
+        const imageUrl = `${process.env.BASE_URL || 'http://localhost:5000'}/uploads/${req.file.filename}`;
         
         const newProject = await Project.create({ title, description, imageUrl, category });
         res.status(201).json(newProject);

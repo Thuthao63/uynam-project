@@ -21,7 +21,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', upload.single('image'), async (req, res) => {
     try {
         const { title, category, summary, content, author, date } = req.body;
-        const imageUrl = req.file ? `http://localhost:5000/uploads/${req.file.filename}` : req.body.imageUrl;
+        const imageUrl = `${process.env.BASE_URL || 'http://localhost:5000'}/uploads/${req.file.filename}`;
         const newItem = await BlogPost.create({ title, category, summary, content, author, date, imageUrl });
         res.status(201).json(newItem);
     } catch (error) { res.status(400).json({ message: error.message }); }

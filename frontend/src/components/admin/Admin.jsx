@@ -32,7 +32,7 @@ const Admin = ({ onProjectAdded }) => {
     if (imageFile) data.append('image', imageFile);
 
     try {
-      await axios.post('http://localhost:5000/api/projects', data);
+      await axios.post('/api/projects', data);
       setFormData({ title: '', description: '', category: 'Nhà phố' });
       setImageFile(null);
       setPreviewUrl(null);

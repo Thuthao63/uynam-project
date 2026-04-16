@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 router.post('/', upload.single('image'), async (req, res) => {
     try {
         const { stepId, title, desc, icon } = req.body;
-        const imageUrl = req.file ? `http://localhost:5000/uploads/${req.file.filename}` : req.body.imageUrl;
+        const imageUrl = `${process.env.BASE_URL || 'http://localhost:5000'}/uploads/${req.file.filename}`;
         const newItem = await WorkflowStep.create({ stepId, title, desc, icon, imageUrl });
         res.status(201).json(newItem);
     } catch (error) { res.status(400).json({ message: error.message }); }
