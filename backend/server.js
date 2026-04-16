@@ -21,13 +21,12 @@ const app = express();
 const server = http.createServer(app); // 3. Tạo server tích hợp app express
 
 // 4. Cấu hình Socket.io để "nói chuyện" với React
-const io = new Server(server, {
-    cors: {
-        origin: "*", // Cho phép tất cả các nguồn truy cập để test cho nhanh
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        credentials: true
-    }
-});
+app.use(cors({
+    // Thay link dưới đây bằng link Frontend thật của Thảo trên Render
+    origin: 'https://uynam-project.onrender.com', 
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true // Bắt buộc phải có cái này vì Axios của Thảo đang để withCredentials = true
+}));
 
 app.use(cors());
 app.use(express.json());
