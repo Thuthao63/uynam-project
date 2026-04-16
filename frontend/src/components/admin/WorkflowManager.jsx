@@ -26,7 +26,7 @@ const WorkflowManager = () => {
         if (imageFile) formData.append('image', imageFile);
 
         try {
-            await axios.post('//api/workflows', formData);
+            await axios.post('/api/workflows', formData);
             setNewData({ stepId: '', title: '', desc: '', icon: '📍' });
             setImageFile(null);
             fetchSteps();

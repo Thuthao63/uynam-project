@@ -30,7 +30,7 @@ const FAQManager = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Xóa câu hỏi này?")) {
             try {
-                await axios.delete(`/faqs/${id}`);
+                await axios.delete(`/api/faqs/${id}`);
                 fetchFAQs();
             } catch (err) { alert("Lỗi khi xóa"); }
         }

@@ -30,7 +30,7 @@ const ReviewManager = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Xóa nhận xét này?")) {
             try {
-                await axios.delete(`/testimonials/${id}`);
+                await axios.delete(`/api/testimonials/${id}`);
                 fetchReviews();
             } catch (err) { alert("Lỗi khi xóa"); }
         }

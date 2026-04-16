@@ -36,7 +36,7 @@ const ServiceManager = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Xóa dịch vụ này?")) {
             try {
-                await axios.delete(`/services/${id}`);
+                await axios.delete(`/api/services/${id}`);
                 fetchServices();
             } catch (err) { alert("Lỗi khi xóa"); }
         }
