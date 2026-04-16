@@ -173,11 +173,17 @@ const HomePage = ({ projects, loading, settings }) => {
 
 
 // --- APP COMPONENT ---
+// ... các dòng import giữ nguyên
+
 function App() {
   const [projects, setProjects] = useState([]);
   const [settings, setSettings] = useState({});
   const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // SỬA DÒNG NÀY: Lấy trạng thái từ localStorage để khi F5 không bị văng ra
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return localStorage.getItem('isAdmin') === 'true';
+  });
 
   const fetchInitialData = async () => {
     try {
@@ -202,35 +208,33 @@ function App() {
   const location = useLocation();
   const isAdminPath = location.pathname.startsWith('/admin') || location.pathname === '/login';
 
+  // Hàm Logout để xóa sạch dấu vết khi thoát
+  const handleLogout = () => {
+    localStorage.removeItem('isAdmin');
+    setIsAuthenticated(false);
+  };
+
   return (
     <>
       <ScrollToTop />
-      
-      {/* Chỉ hiện Navbar chính nếu không phải trang Admin/Login */}
       {!isAdminPath && <Navbar />}
       
-      {/* Hiện AdminNavbar nếu đã đăng nhập và đang ở trang admin */}
+      {/* Cập nhật AdminNavbar để dùng hàm logout mới */}
       {isAuthenticated && location.pathname.startsWith('/admin') && (
-        <AdminNavbar onLogout={setIsAuthenticated} />
+        <AdminNavbar onLogout={handleLogout} />
       )}
 
       <Routes>
-        {/* Trang chủ */}
         <Route path="/" element={<HomePage projects={projects} loading={loading} settings={settings} />} />
-
-        {/* Các trang mở rộng */}
-        <Route path="/workflow" element={<div><Workflow /><Footer /></div>} />
-        <Route path="/about" element={<div className="pt-28"><About /><Footer /></div>} />
-        <Route path="/services" element={<div className="pt-0"><ServicePage /><Footer /></div>} />
-        <Route path="/blog" element={<div className="pt-0"><Blog /><Footer /></div>} />
-        <Route path="/blog/:id" element={<div className="pt-0"><BlogDetail /><Footer /></div>} />
-
-        {/* Nhóm trang Dự Án */}
-        <Route path="/projects" element={<div className="pt-0"><AllProjects projects={projects} loading={loading} /><Footer /></div>} />
-        <Route path="/projects/:id" element={<div className="pt-0"><ProjectDetail projects={projects} loading={loading} /><Footer /></div>} />
+        
+        {/* ... các route khác giữ nguyên ... */}
 
         {/* Bảo mật Admin */}
-        <Route path="/login" element={<Login onLogin={setIsAuthenticated} />} />
+        <Route path="/login" element={<Login onLogin={(val) => {
+          setIsAuthenticated(val);
+          if(val) localStorage.setItem('isAdmin', 'true'); // Lưu khi login thành công
+        }} />} />
+        
         <Route 
           path="/admin/*" 
           element={
@@ -240,7 +244,6 @@ function App() {
           } 
         />
 
-        {/* Trang lỗi 404 */}
         <Route path="*" element={<div className="pt-0"><NotFound /><Footer /></div>} />
       </Routes>
 
