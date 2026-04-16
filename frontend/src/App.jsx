@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../api/axios';
 import { motion } from 'framer-motion';
 
 // Import Components

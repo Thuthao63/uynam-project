@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from '../api/axios';
 import { io } from 'socket.io-client';
 import { motion, AnimatePresence } from 'framer-motion';
 

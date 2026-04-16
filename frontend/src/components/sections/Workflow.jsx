@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../api/axios';
 
 const Workflow = () => {
   const [steps, setSteps] = useState([]);

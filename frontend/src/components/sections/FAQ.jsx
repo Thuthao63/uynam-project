@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import axios from 'axios';
+import axios from '../api/axios';
 
 const FAQ = () => {
   const [faqs, setFaqs] = useState([]);
