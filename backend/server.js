@@ -74,7 +74,7 @@ io.on('connection', (socket) => {
 const startServer = async () => {
     try {
         await connectDB();
-        await sequelize.sync({ alter: true }); 
+        await sequelize.sync({ force: true }); // Cẩn thận khi dùng force: true, nó sẽ xóa hết dữ liệu cũ mỗi lần khởi động
         console.log("✅ Dữ liệu đã đồng bộ!");
         await seedDatabase();
         
