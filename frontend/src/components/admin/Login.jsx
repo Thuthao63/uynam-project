@@ -18,6 +18,7 @@ const Login = ({ onLogin }) => {
 
       // Thảo sửa res thành response nhé
       if (response.data.success) { 
+        localStorage.setItem('isAdmin', 'true');
         onLogin(true);
         navigate('/admin');
       }
