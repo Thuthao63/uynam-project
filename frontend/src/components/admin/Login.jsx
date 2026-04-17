@@ -16,7 +16,8 @@ const Login = ({ onLogin }) => {
     try {
       const response = await axios.post('/api/auth/login', { username, password });
 
-      if (res.data.success) {
+      // Thảo sửa res thành response nhé
+      if (response.data.success) { 
         onLogin(true);
         navigate('/admin');
       }
